@@ -8,8 +8,11 @@ import com.kauailabs.navx.IMUProtocol.YPRUpdate;
 
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
@@ -18,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwerveSubsystem extends SubsystemBase{
+   
     private final SwerveModule frontLeft = new SwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort, 
         DriveConstants.kFrontLeftTurningMotorPort, 
@@ -57,6 +61,7 @@ public class SwerveSubsystem extends SubsystemBase{
         
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     // private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,new Rotation2d(0),null);
     
     //cant run zero heading immediatly bc gyro will be booting up and stuf
     public SwerveSubsystem() {
@@ -81,9 +86,16 @@ public class SwerveSubsystem extends SubsystemBase{
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
-    
+    public Pose2d getPose(){
+        return odometer.getPoseMeters();
+    }
+    public void resetOdometry(Pose2d pose){
+        odometer.resetPosition(getRotation2d(), new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()}, pose);
+    }
     @Override
     public void periodic() {
+        odometer.update(getRotation2d(),new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()} );
+
          SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putNumber("Absolute Encoder 20",backLeft.getAbsoluteEncoderReading() );
         SmartDashboard.putNumber("Absolute Encoder 21",frontLeft.getAbsoluteEncoderReading() );
