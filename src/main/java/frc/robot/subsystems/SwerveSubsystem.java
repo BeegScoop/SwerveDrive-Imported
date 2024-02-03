@@ -55,12 +55,12 @@ public class SwerveSubsystem extends SubsystemBase{
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed
         );
         
-    // private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-    private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    // private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     
     //cant run zero heading immediatly bc gyro will be booting up and stuf
     public SwerveSubsystem() {
-        gyro.calibrate();
+        // gyro.calibrate();
         new Thread(() -> {
             try {
                 Thread.sleep(1000);

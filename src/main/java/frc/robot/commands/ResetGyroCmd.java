@@ -41,6 +41,11 @@ public class ResetGyroCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(swerveSubsystem.getHeading()==0){
+      return true;
+    }else{
+      return false;
+
+    }
   }
 }
