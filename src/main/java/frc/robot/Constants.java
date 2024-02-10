@@ -92,15 +92,15 @@ public final class Constants {
     public static final int kFrontRightDriveAbsoluteEncoderPort = 23;
     public static final int kBackRightDriveAbsoluteEncoderPort = 22;
 
-    public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
-    public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
-    public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
-    public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
+    public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = true;
+    public static final boolean kBackLeftDriveAbsoluteEncoderReversed = true;
+    public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
+    public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
     //NEED TO FIGURE OUT OFFSET USING READINGS
-    public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 1.576932;
-    public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = -2.192059;
-    public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -0.477068;
-    public static final double kBackRightDriveAbsoluteEncoderOffsetRad = -1.434272;
+    public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0; //21
+    public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0; //20
+    public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0; //23
+    public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0;  //22
   }
   public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;

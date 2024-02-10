@@ -48,6 +48,7 @@ public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReve
                     
                     //cancoder as absolute;
                     this.absoluteEncoder = new CANcoder(absoluteEncoderId);
+
                     //changing cancoder from a default range of (0,360) to (-180, 180) cuz thats how tf it works
                     //NOPE
                     
@@ -91,7 +92,11 @@ public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReve
         double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble();
         angle *= (2*Math.PI);
         angle -= absoluteEncoderOffsetRad;
-        return angle * (absoluteEncoderReversed? -1.0 : 1.0);
+        if(absoluteEncoderReversed){
+            return angle*(-1.0);
+        }else{
+            return angle;
+        }
     }
     public double getAbsoluteEncoderReading(){
         // return "Deg: " +absoluteEncoder.getAbsolutePosition()+ " Rad: "+getAbsoluteEncoderRad();

@@ -61,8 +61,10 @@ public class SwerveSubsystem extends SubsystemBase{
         
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     // private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,new Rotation2d(0),null);
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,new Rotation2d(0),
+        new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()});
     
+
     //cant run zero heading immediatly bc gyro will be booting up and stuf
     public SwerveSubsystem() {
         // gyro.calibrate();
@@ -90,7 +92,8 @@ public class SwerveSubsystem extends SubsystemBase{
         return odometer.getPoseMeters();
     }
     public void resetOdometry(Pose2d pose){
-        odometer.resetPosition(getRotation2d(), new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()}, pose);
+        odometer.resetPosition(getRotation2d(), 
+        new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()}, pose);
     }
     @Override
     public void periodic() {
