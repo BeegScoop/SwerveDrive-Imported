@@ -111,6 +111,13 @@ public class SwerveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("Relative Encoder 13",frontLeft.getTurningPosition() );
         SmartDashboard.putNumber("Relative Encoder 8",backRight.getTurningPosition() );
         SmartDashboard.putNumber("Relative Encoder 14",frontRight.getTurningPosition() );
+
+        SmartDashboard.putNumber("Drive Encoder 3",backLeft.getDriveVelocity() );
+        SmartDashboard.putNumber("Drive Encoder 11",frontLeft.getDriveVelocity() );
+        SmartDashboard.putNumber("Drive Encoder 10",backRight.getDriveVelocity() );
+        SmartDashboard.putNumber("Drive Encoder 4",frontRight.getDriveVelocity() );
+
+        
         
         
 
