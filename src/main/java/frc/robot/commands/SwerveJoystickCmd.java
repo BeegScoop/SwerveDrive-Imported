@@ -62,7 +62,7 @@ public class SwerveJoystickCmd extends Command {
     if (fieldOrientedFunction.get()) {
         // Relative to field
         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                -1*xSpeed, -1*ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+                xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
     } else {
         // Relative to robot
         chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
