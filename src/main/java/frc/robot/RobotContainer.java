@@ -41,9 +41,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  
 
-  private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
+  //XBOX CONTROLLER ON PORT 0 AND JOYSTICK ON PORT 1
+  private final Joystick driverJoystickOne = new Joystick(OIConstants.kDriverControllerOnePort);
+    private final Joystick driverJoystickTwo = new Joystick(OIConstants.kDriverControllerTwoPort);
+
   private final SendableChooser<String> m_chooser;
 
   public static final String xboxTxt = "Xbox";
@@ -58,16 +60,23 @@ public class RobotContainer {
       
       swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
               swerveSubsystem,
-              () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-              () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-              () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxisXbox),
-              () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+              () -> -driverJoystickOne.getRawAxis(OIConstants.kDriverYAxis),
+              () -> driverJoystickOne.getRawAxis(OIConstants.kDriverXAxis),
+              () -> driverJoystickOne.getRawAxis(OIConstants.kDriverRotAxisXbox),
+              () -> !driverJoystickOne.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
       configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    new JoystickButton(driverJoystick, 2).onTrue(new ResetGyroCmd(swerveSubsystem)); 
+    new JoystickButton(driverJoystickOne, 2).onTrue(new ResetGyroCmd(swerveSubsystem)); 
+    new JoystickButton(driverJoystickOne, 3).toggleOnTrue(new SwerveJoystickCmd(
+              swerveSubsystem,
+              () -> -driverJoystickTwo.getRawAxis(OIConstants.kDriverYAxis),
+              () -> driverJoystickTwo.getRawAxis(OIConstants.kDriverXAxis),
+              () -> driverJoystickTwo.getRawAxis(OIConstants.kDriverRotAxisJoystick),
+              () -> !driverJoystickTwo.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx))); 
+
 
   }
   
