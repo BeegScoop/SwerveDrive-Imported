@@ -28,6 +28,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -40,22 +41,34 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  
 
-  private final Joystick driverJoytick = new Joystick(OIConstants.kDriverControllerPort);
+  private final Joystick driverJoystick = new Joystick(OIConstants.kDriverControllerPort);
+  private final SendableChooser<String> m_chooser;
+
+  public static final String xboxTxt = "Xbox";
+  public static final String joystickTxt = "Joysitck";
+  
 
   public RobotContainer() {
+    m_chooser = new SendableChooser<>();
+    m_chooser.addOption(xboxTxt, xboxTxt);
+    m_chooser.addOption( joystickTxt,  joystickTxt);
+    
+      
       swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
               swerveSubsystem,
-              () -> -driverJoytick.getRawAxis(OIConstants.kDriverYAxis),
-              () -> driverJoytick.getRawAxis(OIConstants.kDriverXAxis),
-              () -> driverJoytick.getRawAxis(OIConstants.kDriverRotAxis),
-              () -> !driverJoytick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+              () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+              () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+              () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxisXbox),
+              () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
       configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    new JoystickButton(driverJoytick, 2).onTrue(new ResetGyroCmd(swerveSubsystem));  
+    new JoystickButton(driverJoystick, 2).onTrue(new ResetGyroCmd(swerveSubsystem)); 
+
   }
   
   public Command getAutonomousCommand() {
@@ -67,14 +80,13 @@ public class RobotContainer {
     //2. Generate trajectory
     //maybe make more Autocommands that can pass in these values/cords
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(//
-        new Pose2d(0,0,new Rotation2d(0)),//
-        List.of(//
-        new Translation2d(1,0),//
-        new Translation2d(1,-1)//
-        ),//
-        new Pose2d(2,-1,Rotation2d.fromDegrees(180)),//
-        trajectoryConfig//
-    );
+        //x is forward/backward movement and y is left/right movement
+        new Pose2d(0, 0, new Rotation2d(0)),
+        List.of(
+                new Translation2d(0.5, 0),
+                new Translation2d(0.5, -0.5)),
+        new Pose2d(1, -0.5, Rotation2d.fromDegrees(180)),
+        trajectoryConfig);
     //3. Define PID controllers for tracking trajectory
     PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
     PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);

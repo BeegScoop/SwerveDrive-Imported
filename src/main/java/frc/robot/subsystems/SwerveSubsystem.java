@@ -93,20 +93,19 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     public void resetOdometry(Pose2d pose){
         odometer.resetPosition(getRotation2d(), 
-        new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()}, pose);
+        new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()},
+         pose);
     }
     @Override
     public void periodic() {
         odometer.update(getRotation2d(),new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()} );
 
-         SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putNumber("Absolute Encoder 20",backLeft.getAbsoluteEncoderReading() );
         SmartDashboard.putNumber("Absolute Encoder 21",frontLeft.getAbsoluteEncoderReading() );
         SmartDashboard.putNumber("Absolute Encoder 22",backRight.getAbsoluteEncoderReading() );
         SmartDashboard.putNumber("Absolute Encoder 23",frontRight.getAbsoluteEncoderReading() );
         
-        SmartDashboard.putNumber("Absolute Encoder 23 POS",frontRight.getAbsolutePos() );
-
         SmartDashboard.putNumber("Relative Encoder 5",backLeft.getTurningPosition() );
         SmartDashboard.putNumber("Relative Encoder 13",frontLeft.getTurningPosition() );
         SmartDashboard.putNumber("Relative Encoder 8",backRight.getTurningPosition() );
@@ -116,6 +115,8 @@ public class SwerveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("Drive Encoder 11",frontLeft.getDriveVelocity() );
         SmartDashboard.putNumber("Drive Encoder 10",backRight.getDriveVelocity() );
         SmartDashboard.putNumber("Drive Encoder 4",frontRight.getDriveVelocity() );
+
+        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 
         
         
