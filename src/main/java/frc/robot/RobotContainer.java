@@ -43,6 +43,7 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
   //XBOX CONTROLLER ON PORT 0 AND JOYSTICK ON PORT 1
+  //Press "X" on the xbox controller to toggle between
   private final Joystick driverJoystickOne = new Joystick(OIConstants.kDriverControllerOnePort);
     private final Joystick driverJoystickTwo = new Joystick(OIConstants.kDriverControllerTwoPort);
 
