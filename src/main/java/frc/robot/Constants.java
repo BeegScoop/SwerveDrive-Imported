@@ -38,7 +38,7 @@ public final class Constants {
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter/60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad/60;
     //wtf this do
-    public static final double kPTurning = 0.15;
+    public static final double kPTurning = 0.3;
 
 
   }
