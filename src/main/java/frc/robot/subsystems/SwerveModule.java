@@ -31,7 +31,7 @@ private RelativeEncoder turningEncoder;
 //to move angle motor
 private PIDController turningPidController;
 //absolute encoder so the wheel position can be kept constantly
-//connect to the rio
+//is only used at the very beginning to reset relative encoders
 private CANcoder absoluteEncoder;
 //
 private boolean absoluteEncoderReversed;
@@ -46,11 +46,11 @@ public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReve
                     this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
                     this.absoluteEncoderReversed = absoluteEncoderReversed;
                     
-                    //cancoder as absolute;
+                    
                     this.absoluteEncoder = new CANcoder(absoluteEncoderId);
 
-                    //changing cancoder from a default range of (0,360) to (-180, 180) cuz thats how tf it works
-                    //NOPE
+                   
+                
                     
                     driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
                     turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -61,37 +61,48 @@ public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReve
                     turningEncoder = turningMotor.getEncoder();
                  
                     
-                    //Cancoder version of this???
+                   
+                    //uses the gear ratio of drive motor to wheels and wheel diameter to make relative drive encoder match up with meters traveled by bot
                     driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
                     driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
+                    //uses the gear ratio of turn motor to wheels to make relative turn encoder read as radians turned by the wheel
                     turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
                     turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
                     
-
+                    //yea this a pid controller idk why the pid controller uses that turning value it just works so...
                     turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
-                    //turns PID controller into a circular system (tells it that -180 is right next to 179 (-180 and 180 cant both exist))
+                    //turns PID controller into a circular system (tells it that -pi is right next to pi (think circle))
                     turningPidController.enableContinuousInput(-Math.PI,Math.PI);
-
+                    //read the method
                     resetEncoders();
                     }
+    //gets drive encoder position in meters
     public double getDrivePosition(){
         return driveEncoder.getPosition();
     }
+    //gets turning encoder position in radians
     public double getTurningPosition(){
         return turningEncoder.getPosition();
     }
+    //gets drive encoder velocity in m/s
     public double getDriveVelocity(){
         return driveEncoder.getVelocity();
     }
+    //gets turning encoder velocity in rad/s
     public double getTurningVelocity(){
         return turningEncoder.getVelocity();
     }
+    //
     public double getAbsoluteEncoderRad(){
-        //how many percent of a full rotation it is currently reading
-        //CHECK IF RETURNS DEGREES
+        //getAbsolutePosition returns value from -0.5 to 0.5 (think cicle again (-0.5 is right next to 0.5))
         double angle = absoluteEncoder.getAbsolutePosition().getValueAsDouble();
+        //boom angle is now in radians
         angle *= (2*Math.PI);
+        //offsets the angle according to typed constants
+        //pro tip: use Pheonix Tuner X to zero the absolute encoders manually instead
+        //EVERY TIME THE ABSOLUTE ENCODERS ARE UNPLUGGED THEY NEED TO BE RE-ZEROED
         angle -= absoluteEncoderOffsetRad;
+        //if they are reversed turn that john negative
         if(absoluteEncoderReversed){
             return angle*(-1.0);
         }else{
@@ -99,42 +110,56 @@ public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReve
         }
     }
     public double getAbsoluteEncoderReading(){
-        // return "Deg: " +absoluteEncoder.getAbsolutePosition()+ " Rad: "+getAbsoluteEncoderRad();
+        //literally just returns the method above this one
+        //ik its basically useless but im not changing it now
         return getAbsoluteEncoderRad();
     }
     
+    //read the function title
     public void resetEncoders(){
+        //zeros drive encoder
         driveEncoder.setPosition(0);
+        //sets the relative turning encoder to it's absolute encoder's value in radians 
+        //(remember we converted absolute to radians by multiplying by 2pi and 
+        //relative to radians by using our gear ratio to create a conversion factor)
         turningEncoder.setPosition(getAbsoluteEncoderRad());
 
         
     }
+    //gets absolute position of absolute encoders on a range of -0.5 to 0.5 (raw data with no conversions)
     public double getAbsolutePos(){
         return absoluteEncoder.getAbsolutePosition().getValueAsDouble();
     } 
-    
+    //gets the state of the module 
     public SwerveModuleState getState(){
+        //creates a current state from the current drive velocity and turning position
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));    
     }
+    //gets that swerve module position idk
     public SwerveModulePosition getPosition(){
         return new SwerveModulePosition();
     }
-   
+    
     public void setDesiredState(SwerveModuleState state){
+        //does not set a state if there is no speed in the new state
+        //need to test to see if this makes it so it can coast
         if(Math.abs(state.speedMetersPerSecond)<0.001){
             stop();
             return;
-
         }
+        //optimize makes it so that the wheel only has to turn a max of 90 degrees at a time
+        //uses both directions of drive motor instead of just forward
         state = SwerveModuleState.optimize(state, getState().angle);
+        //sets the driveMotor speed and scale down using physical max meters per second of the motor
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        //sets the turningMotor position useing a pid controller with inputs of the current position of turning motor
+        //combined with the desired position
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         // ???
         SmartDashboard.putString("Swerve[" + turningMotorId+"] state", state.toString());
 
-        // SmartDashboard.putString("AbsoluteEncoder["+absoluteEncoderId+"]", "Rad:"+getAbsoluteEncoderRad() +", Deg:"+absoluteEncoder.getAbsolutePosition() );
     }
-    
+    //stop
     public void stop(){
         driveMotor.set(0);
         turningMotor.set(0);

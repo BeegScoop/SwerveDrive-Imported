@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwerveSubsystem extends SubsystemBase{
-   
+   //creates module instances using the swerveModule.java file
     private final SwerveModule frontLeft = new SwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort, 
         DriveConstants.kFrontLeftTurningMotorPort, 
@@ -58,7 +58,7 @@ public class SwerveSubsystem extends SubsystemBase{
         DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad, 
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed
         );
-        
+    //creates a navX gyro to use in da calcs
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     // private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,new Rotation2d(0),
@@ -80,11 +80,13 @@ public class SwerveSubsystem extends SubsystemBase{
     public void zeroHeading() {
         gyro.reset();
     }
-
+    //gets the heading returned as the gyro reading remainder after being divided by 360
+    //that way it always reads from 0 to 360
+    //or 0 to -360
     public double getHeading() {
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
-
+    //returns as radians?
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
@@ -123,14 +125,14 @@ public class SwerveSubsystem extends SubsystemBase{
         
 
     }   
-
+    //stops modules
     public void stopModules() {
         frontLeft.stop();
         frontRight.stop();
         backLeft.stop();
         backRight.stop();
     }
-
+    //sets the module states using an array of input desired states
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);

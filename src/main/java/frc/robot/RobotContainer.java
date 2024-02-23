@@ -8,12 +8,10 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ResetGyroCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 
-import frc.robot.subsystems.ExampleSubsystem;
+
 import frc.robot.subsystems.SwerveSubsystem;
 
 import java.util.List;
