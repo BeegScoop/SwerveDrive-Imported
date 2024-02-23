@@ -44,9 +44,8 @@ public class RobotContainer {
   //Press "X" on the xbox controller to toggle between
   private final Joystick driverJoystickOne = new Joystick(OIConstants.kDriverControllerOnePort);
     private final Joystick driverJoystickTwo = new Joystick(OIConstants.kDriverControllerTwoPort);
-
+  //not used
   private final SendableChooser<String> m_chooser;
-
   public static final String xboxTxt = "Xbox";
   public static final String joystickTxt = "Joysitck";
   
@@ -56,7 +55,7 @@ public class RobotContainer {
     m_chooser.addOption(xboxTxt, xboxTxt);
     m_chooser.addOption( joystickTxt,  joystickTxt);
     
-      
+      //sets default command to joystick with feeders from controller
       swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
               swerveSubsystem,
               () -> -driverJoystickOne.getRawAxis(OIConstants.kDriverYAxis),
@@ -68,7 +67,9 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+    //resets the gyro mid drive
     new JoystickButton(driverJoystickOne, 2).onTrue(new ResetGyroCmd(swerveSubsystem)); 
+    //switches over to joystick using x button toggle
     new JoystickButton(driverJoystickOne, 3).toggleOnTrue(new SwerveJoystickCmd(
               swerveSubsystem,
               () -> -driverJoystickTwo.getRawAxis(OIConstants.kDriverYAxis),
@@ -96,6 +97,7 @@ public class RobotContainer {
         new Pose2d(1, -0.5, Rotation2d.fromDegrees(180)),
         trajectoryConfig);
     //3. Define PID controllers for tracking trajectory
+    //check out these autoconstants
     PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
     PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
     ProfiledPIDController thetaController = new ProfiledPIDController(
