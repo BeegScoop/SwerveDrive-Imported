@@ -90,9 +90,11 @@ public class SwerveSubsystem extends SubsystemBase{
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
+    //returns Pose with x,y, and theta coordinates of robot
     public Pose2d getPose(){
         return odometer.getPoseMeters();
     }
+    //reset the odometer current theta, module positions
     public void resetOdometry(Pose2d pose){
         odometer.resetPosition(getRotation2d(), 
         new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()},
@@ -103,6 +105,7 @@ public class SwerveSubsystem extends SubsystemBase{
         odometer.update(getRotation2d(),new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()} );
 
         SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("Absolute Encoder 20",backLeft.getAbsoluteEncoderReading() );
         SmartDashboard.putNumber("Absolute Encoder 21",frontLeft.getAbsoluteEncoderReading() );
         SmartDashboard.putNumber("Absolute Encoder 22",backRight.getAbsoluteEncoderReading() );
@@ -118,7 +121,7 @@ public class SwerveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("Drive Encoder 10",backRight.getDriveVelocity() );
         SmartDashboard.putNumber("Drive Encoder 4",frontRight.getDriveVelocity() );
 
-        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        
 
         
         

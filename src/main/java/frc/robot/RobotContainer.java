@@ -90,6 +90,7 @@ public class RobotContainer {
     //maybe make more Autocommands that can pass in these values/cords
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(//
         //x is forward/backward movement and y is left/right movement
+        //coordinates are in meters i think???
         new Pose2d(0, 0, new Rotation2d(0)),
         List.of(
                 new Translation2d(0.5, 0),
