@@ -19,7 +19,7 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int kDriverControllerPort = 100;
 
     //MotorConversionFactors
     // public static final double kDriveEncoderRot2Meter = 0;
@@ -30,17 +30,85 @@ public final class Constants {
   public static class ModuleConstants{
     //confirm these values -  confirmed
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+    
     public static final double kDriveMotorGearRatio = 1/6.75;
     public static final double kTurningMotorGearRatio = (1/(150.0/7));
+    
+    
+    //
     public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
+    
+    
     //Used as position conversion factor
     public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
+    
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter/60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad/60;
     //wtf this do
     public static final double kPTurning = 0.3;
 
 
+  }
+  public static class ArmConstants{
+    
+    public static final double kArmMotorGearRatio = (1/5)*(1/4)*(1/3)*(16/66)*1.0;
+    public static final double kArmEncoderRot2Rad = kArmMotorGearRatio *2*Math.PI;
+    public static final double kArmEncoderRPM2RadPerSec = kArmEncoderRot2Rad/60;
+    //check
+    public static final int kArmMotorPort = 101;
+    public static final boolean kArmMotorReversed = false;
+    public static final double kRadLimitBot = 0;
+    public static final double kRadLimitTop = 0;
+    //test
+    public static final double kForwardSpeed = 0.1;
+    public static final double kBackwardSpeed = -0.1;
+    //test
+    public static final double kPArm = 0.05;
+  }
+
+  public static class FlyConstants{
+    public static final double kFlyWheelDiameterMeters = Units.inchesToMeters(4);
+    public static final double kFlyEncoderRot2Meter = Math.PI * kFlyWheelDiameterMeters;
+    public static final double kFlyEncoderRPM2MeterPerSec = kFlyEncoderRot2Meter/60;
+    //check
+    public static final int kRightFlyMotorPort = 102;
+    public static final int kLeftFlyMotorPort = 103;
+    public static final boolean kRightFlyMotorReversed = false;
+    public static final boolean kLeftFlyMotorReversed = false;
+
+    public static final double kFlyMotorSpeed = 1.0;
+    
+    
+  }
+  public static class HerderConstants{
+   
+    public static final double kHerderWheelDiameterMeters = Units.inchesToMeters(3);
+    public static final double kHerderEncoderRot2Meter = Math.PI * kHerderWheelDiameterMeters;
+    public static final double kHerderEncoderRPM2MeterPerSec = kHerderEncoderRot2Meter/60;
+    //check
+    public static final int kHerderMotorPort = 104;
+    public static final boolean kHerderMotorReversed = false;
+
+    public static final double kHerderMotorSpeed = 1.0;
+    
+  }
+  public static class WinchConstants{
+    
+    //check
+    public static final double kWinchMotorGearRatio = 1.0;
+    public static final double kWinchWheelDiameterMeters = Units.inchesToMeters(1);
+    public static final double kWinchEncoderRot2Meter = kWinchMotorGearRatio*Math.PI * kWinchWheelDiameterMeters;
+    public static final double kWinchEncoderRPM2MeterPerSec = kWinchEncoderRot2Meter/60;
+
+    public static final double kMeterLimitBot = 0;
+    public static final double kMeterLimitTop = 0;
+    //check
+    public static final int kWinchMotorPort = 105;
+    public static final boolean kWinchMotorReversed = false;
+    public static final double kWinchForwardSpeed =1.0;
+    public static final double kWinchBackwardSpeed = -1.0;
+
+    public static final double kPWinch = 0.1;
   }
   public static class DriveConstants{
     // Distance between right and left wheels
@@ -96,7 +164,7 @@ public final class Constants {
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = true;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
-    //NEED TO FIGURE OUT OFFSET USING READINGS
+    //ZERO CANCODERS USING PHOENIX TUNER X INSTEAD
     public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0; //21
     public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0; //20
     public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0; //23
