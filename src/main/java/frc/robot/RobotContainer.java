@@ -115,6 +115,7 @@ public class RobotContainer {
     swerveSubsystem);
     //5. Add some init qand wrap-up, and return everything
     return new SequentialCommandGroup(
+      //resets odometer so that "even if the robot does not start on the initial point of our trajectory, it will move that trajectory to the current location"
       new InstantCommand(()-> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),//
       swerveControllerCommand,//
       new InstantCommand(()-> swerveSubsystem.stopModules())//
