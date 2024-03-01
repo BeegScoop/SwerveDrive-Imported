@@ -105,7 +105,7 @@ public final class Constants {
     public static final double kMeterLimitBot = 0;
     public static final double kMeterLimitTop = 0;
     //check
-    public static final int kWinchMotorPort = 106;
+    public static final int kWinchMotorPort = 40;
     public static final boolean kWinchMotorReversed = false;
     public static final double kWinchForwardSpeed =1.0;
     public static final double kWinchBackwardSpeed = -1.0;
