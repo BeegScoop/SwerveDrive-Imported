@@ -86,8 +86,10 @@ public final class Constants {
     public static final double kHerderEncoderRot2Meter = Math.PI * kHerderWheelDiameterMeters;
     public static final double kHerderEncoderRPM2MeterPerSec = kHerderEncoderRot2Meter/60;
     //check
-    public static final int kHerderMotorPort = 104;
-    public static final boolean kHerderMotorReversed = false;
+    public static final int kTopHerderMotorPort = 104;
+    public static final int kBotHerderMotorPort = 105;
+    public static final boolean kTopHerderMotorReversed = false;
+    public static final boolean kBotHerderMotorReversed = false;
 
     public static final double kHerderMotorSpeed = 1.0;
     
@@ -103,7 +105,7 @@ public final class Constants {
     public static final double kMeterLimitBot = 0;
     public static final double kMeterLimitTop = 0;
     //check
-    public static final int kWinchMotorPort = 105;
+    public static final int kWinchMotorPort = 106;
     public static final boolean kWinchMotorReversed = false;
     public static final double kWinchForwardSpeed =1.0;
     public static final double kWinchBackwardSpeed = -1.0;
@@ -195,6 +197,29 @@ public final class Constants {
     public static final int kDriverXAxis = 0;
     public static final int kDriverRotAxisXbox = 4;
     public static final int kDriverRotAxisJoystick = 2;
+
+
+    ///////////////////////buttons\\\\\\\\\\\\\\\\\
+    //One
+    public static final int kRestGyrobutton = 2;
+    //Two
+    //Y
+    public static final int kFlyWheelFwdButton = 3;
+    //A
+    public static final int kFlyWheelBwdButton = 0;
+    //right trigger
+    public static final int kArmForwardButton = 5;
+    //left trigger
+    public static final int kArmBackwardButton = 4;
+    //B
+    public static final int kHerderInButton = 2;
+    //X
+    public static final int kHerderOutButton = 1;
+    //Plus up (POV button in degrees)
+    public static final int kExtendLiftButton = 0;
+    //Plus down
+    public static final int kRetractLiftButton = 180;
+
 
     public static final int kDriverFieldOrientedButtonIdx =1;
 

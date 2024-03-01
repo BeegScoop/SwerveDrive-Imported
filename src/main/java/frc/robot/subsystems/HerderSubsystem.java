@@ -33,27 +33,44 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HerderSubsystem extends SubsystemBase {
   /** Creates a new HerderSubsystem. */
-  private CANSparkMax herderMotor;
-  private RelativeEncoder herderEncoder;
+  private CANSparkMax topHerderMotor;
+  private CANSparkMax botHerderMotor;
+  private RelativeEncoder topHerderEncoder;
+  private RelativeEncoder botHerderEncoder;
+  
   public HerderSubsystem() {
-    herderMotor = new CANSparkMax(HerderConstants.kHerderMotorPort, MotorType.kBrushless);
-    herderEncoder = herderMotor.getEncoder();
-    herderEncoder.setPositionConversionFactor(HerderConstants.kHerderEncoderRot2Meter);
-    herderEncoder.setVelocityConversionFactor(HerderConstants.kHerderEncoderRPM2MeterPerSec);
+    topHerderMotor = new CANSparkMax(HerderConstants.kTopHerderMotorPort, MotorType.kBrushless);
+    botHerderMotor = new CANSparkMax(HerderConstants.kBotHerderMotorPort, MotorType.kBrushless);
+    topHerderEncoder = topHerderMotor.getEncoder();
+    botHerderEncoder = botHerderMotor.getEncoder();
+    topHerderEncoder.setPositionConversionFactor(HerderConstants.kHerderEncoderRot2Meter);
+    topHerderEncoder.setVelocityConversionFactor(HerderConstants.kHerderEncoderRPM2MeterPerSec);
+    botHerderEncoder.setPositionConversionFactor(HerderConstants.kHerderEncoderRot2Meter);
+    botHerderEncoder.setVelocityConversionFactor(HerderConstants.kHerderEncoderRPM2MeterPerSec);
   }
 
   public void herderIn(){
-    if(HerderConstants.kHerderMotorReversed){
-      herderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
+    if(HerderConstants.kTopHerderMotorReversed){
+      topHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
     }else{
-      herderMotor.set(HerderConstants.kHerderMotorSpeed);
+      topHerderMotor.set(HerderConstants.kHerderMotorSpeed);
+    }
+    if(HerderConstants.kBotHerderMotorReversed){
+      botHerderMotor.set(HerderConstants.kHerderMotorSpeed);
+    }else{
+      botHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
     }
   }
   public void herderOut(){
-    if(HerderConstants.kHerderMotorReversed){
-        herderMotor.set(HerderConstants.kHerderMotorSpeed);
+    if(HerderConstants.kTopHerderMotorReversed){
+      topHerderMotor.set(HerderConstants.kHerderMotorSpeed);
     }else{
-        herderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
+      topHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
+    }
+    if(HerderConstants.kBotHerderMotorReversed){
+      botHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
+    }else{
+      botHerderMotor.set(HerderConstants.kHerderMotorSpeed);
     }
   }
 

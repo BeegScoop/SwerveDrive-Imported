@@ -42,18 +42,26 @@ public class ArmSubsystem extends SubsystemBase {
     
   }
   public void turnArmForward(){
-    if(ArmConstants.kArmMotorReversed){
-      armMotor.set(ArmConstants.kForwardSpeed*(-1.0));
-    }else{
-      armMotor.set(ArmConstants.kForwardSpeed);
+    if(armEncoder.getPosition()>ArmConstants.kRadLimitBot){
+      if(ArmConstants.kArmMotorReversed){
+        armMotor.set(ArmConstants.kForwardSpeed*(-1.0));
+      }else{
+        armMotor.set(ArmConstants.kForwardSpeed);
+      }
+    }else {
+      armMotor.set(0);
     }
     
   }
   public void turnArmBackward(){
-    if(ArmConstants.kArmMotorReversed){
-      armMotor.set(ArmConstants.kBackwardSpeed*(-1.0));
+    if(armEncoder.getPosition()<ArmConstants.kRadLimitTop){
+      if(ArmConstants.kArmMotorReversed){
+        armMotor.set(ArmConstants.kBackwardSpeed*(-1.0));
+      }else{
+        armMotor.set(ArmConstants.kBackwardSpeed);
+      }
     }else{
-      armMotor.set(ArmConstants.kBackwardSpeed);
+      armMotor.set(0);
     }
   }
   public void setArmPosition(double posRad){

@@ -44,7 +44,7 @@ public class WinchSubsystem extends SubsystemBase {
     winchEncoder.setVelocityConversionFactor(WinchConstants.kWinchEncoderRPM2MeterPerSec);
     winchPidController = new PIDController(WinchConstants.kPWinch, 0, 0);
   }
-  public void turnArmForward(){
+  public void extendLift(){
     if(WinchConstants.kWinchMotorReversed){
       winchMotor.set(WinchConstants.kWinchForwardSpeed*(-1.0));
     }else{
@@ -52,17 +52,17 @@ public class WinchSubsystem extends SubsystemBase {
     }
     
   }
-  public void turnArmBackward(){
+  public void retractLift(){
     if(ArmConstants.kArmMotorReversed){
       winchMotor.set(WinchConstants.kWinchBackwardSpeed*(-1.0));
     }else{
       winchMotor.set(WinchConstants.kWinchBackwardSpeed);
     }
   }
-  public void setArmPosition(double posRad){
+  public void setLiftPosition(double posMeters){
     //does this need a reversal????
     //test
-    winchMotor.set(winchPidController.calculate(winchEncoder.getPosition(), posRad));
+    winchMotor.set(winchPidController.calculate(winchEncoder.getPosition(), posMeters));
   }
   @Override
   public void periodic() {

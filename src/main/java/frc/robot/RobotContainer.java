@@ -13,6 +13,10 @@ import frc.robot.commands.SwerveJoystickCmd;
 
 
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.HerderSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.WinchSubsystem;
+import frc.robot.subsystems.FlyWheelSubsystem;
 
 import java.util.List;
 
@@ -33,27 +37,27 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 public class RobotContainer {
 
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  private final FlyWheelSubsystem flyWheelSubsystem = new FlyWheelSubsystem();
+  private final HerderSubsystem herderSubsystem = new HerderSubsystem();
+  private final WinchSubsystem winchSubsystem = new WinchSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   //XBOX CONTROLLER ON PORT 0 AND JOYSTICK ON PORT 1
   //Press "X" on the xbox controller to toggle between
   private final Joystick driverJoystickOne = new Joystick(OIConstants.kDriverControllerOnePort);
-    private final Joystick driverJoystickTwo = new Joystick(OIConstants.kDriverControllerTwoPort);
-  //not used
-  private final SendableChooser<String> m_chooser;
-  public static final String xboxTxt = "Xbox";
-  public static final String joystickTxt = "Joysitck";
+  private final Joystick driverJoystickTwo = new Joystick(OIConstants.kDriverControllerTwoPort);
+ 
   
 
   public RobotContainer() {
-    m_chooser = new SendableChooser<>();
-    m_chooser.addOption(xboxTxt, xboxTxt);
-    m_chooser.addOption( joystickTxt,  joystickTxt);
+    
     
       //sets default command to joystick with feeders from controller
       swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -67,15 +71,31 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+    //////////Controller One\\\\\\\\\\\\\\\\
     //resets the gyro mid drive
-    new JoystickButton(driverJoystickOne, 2).onTrue(new ResetGyroCmd(swerveSubsystem)); 
+    new JoystickButton(driverJoystickOne, OIConstants.kRestGyrobutton).onTrue(new ResetGyroCmd(swerveSubsystem)); 
+    
+    //////////Controller Two\\\\\\\\\\\\\\\\\
+    //Y and A
+    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyOut));
+    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelBwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyIn));
+    //left and right trigger
+    new JoystickButton(driverJoystickTwo, OIConstants.kArmForwardButton).onTrue(new InstantCommand(armSubsystem::turnArmForward));
+    new JoystickButton(driverJoystickTwo, OIConstants.kArmBackwardButton).onTrue(new InstantCommand(armSubsystem::turnArmBackward));
+    //B and X
+    new JoystickButton(driverJoystickTwo, OIConstants.kHerderInButton).onTrue(new InstantCommand(herderSubsystem::herderIn));
+    new JoystickButton(driverJoystickTwo, OIConstants.kHerderOutButton).onTrue(new InstantCommand(herderSubsystem::herderOut));
+    //PLus up and down
+    new POVButton(driverJoystickTwo, OIConstants.kExtendLiftButton).onTrue(new InstantCommand(winchSubsystem::extendLift));
+    new POVButton(driverJoystickTwo, OIConstants.kRetractLiftButton).onTrue(new InstantCommand(winchSubsystem::retractLift));
+
     //switches over to joystick using x button toggle
-    new JoystickButton(driverJoystickOne, 3).toggleOnTrue(new SwerveJoystickCmd(
-              swerveSubsystem,
-              () -> -driverJoystickTwo.getRawAxis(OIConstants.kDriverYAxis),
-              () -> driverJoystickTwo.getRawAxis(OIConstants.kDriverXAxis),
-              () -> driverJoystickTwo.getRawAxis(OIConstants.kDriverRotAxisJoystick),
-              () -> !driverJoystickTwo.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx))); 
+    // new JoystickButton(driverJoystickOne, 3).toggleOnTrue(new SwerveJoystickCmd(
+    //           swerveSubsystem,
+    //           () -> -driverJoystickTwo.getRawAxis(OIConstants.kDriverYAxis),
+    //           () -> driverJoystickTwo.getRawAxis(OIConstants.kDriverXAxis),
+    //           () -> driverJoystickTwo.getRawAxis(OIConstants.kDriverRotAxisJoystick),
+    //           () -> !driverJoystickTwo.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx))); 
 
 
   }
