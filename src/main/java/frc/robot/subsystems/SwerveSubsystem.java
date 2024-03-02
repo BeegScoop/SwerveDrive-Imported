@@ -103,23 +103,27 @@ public class SwerveSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         odometer.update(getRotation2d(),new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()} );
+        SmartDashboard.putString("frontLeft", frontLeft.getPosition().toString());
+        SmartDashboard.putString("frontRight", frontRight.getPosition().toString());
+        SmartDashboard.putString("backLeft", backLeft.getPosition().toString());
+        SmartDashboard.putString("backRight", backRight.getPosition().toString());
+        SmartDashboard.putString("Robot Heading", getRotation2d().toString());
 
-        SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putNumber("Absolute Encoder 20",backLeft.getAbsoluteEncoderReading() );
-        SmartDashboard.putNumber("Absolute Encoder 21",frontLeft.getAbsoluteEncoderReading() );
-        SmartDashboard.putNumber("Absolute Encoder 22",backRight.getAbsoluteEncoderReading() );
-        SmartDashboard.putNumber("Absolute Encoder 23",frontRight.getAbsoluteEncoderReading() );
+        // SmartDashboard.putNumber("Absolute Encoder 20",backLeft.getAbsoluteEncoderReading() );
+        // SmartDashboard.putNumber("Absolute Encoder 21",frontLeft.getAbsoluteEncoderReading() );
+        // SmartDashboard.putNumber("Absolute Encoder 22",backRight.getAbsoluteEncoderReading() );
+        // SmartDashboard.putNumber("Absolute Encoder 23",frontRight.getAbsoluteEncoderReading() );
         
-        SmartDashboard.putNumber("Relative Encoder 5",backLeft.getTurningPosition() );
-        SmartDashboard.putNumber("Relative Encoder 13",frontLeft.getTurningPosition() );
-        SmartDashboard.putNumber("Relative Encoder 8",backRight.getTurningPosition() );
-        SmartDashboard.putNumber("Relative Encoder 14",frontRight.getTurningPosition() );
+        // SmartDashboard.putNumber("Relative Encoder 5",backLeft.getTurningPosition() );
+        // SmartDashboard.putNumber("Relative Encoder 13",frontLeft.getTurningPosition() );
+        // SmartDashboard.putNumber("Relative Encoder 8",backRight.getTurningPosition() );
+        // SmartDashboard.putNumber("Relative Encoder 14",frontRight.getTurningPosition() );
 
-        SmartDashboard.putNumber("Drive Encoder 3",backLeft.getDriveVelocity() );
-        SmartDashboard.putNumber("Drive Encoder 11",frontLeft.getDriveVelocity() );
-        SmartDashboard.putNumber("Drive Encoder 10",backRight.getDriveVelocity() );
-        SmartDashboard.putNumber("Drive Encoder 4",frontRight.getDriveVelocity() );
+        // SmartDashboard.putNumber("Drive Encoder 3",backLeft.getDriveVelocity() );
+        // SmartDashboard.putNumber("Drive Encoder 11",frontLeft.getDriveVelocity() );
+        // SmartDashboard.putNumber("Drive Encoder 10",backRight.getDriveVelocity() );
+        // SmartDashboard.putNumber("Drive Encoder 4",frontRight.getDriveVelocity() );
 
         
 

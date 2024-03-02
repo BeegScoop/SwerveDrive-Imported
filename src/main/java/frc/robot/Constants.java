@@ -117,7 +117,7 @@ public final class Constants {
     // Distance between right and left wheels
     public static final double kTrackWidth = Units.inchesToMeters(15.5);
     // Distance between front and back wheels
-    public static final double kWheelBase = Units.inchesToMeters(26);
+    public static final double kWheelBase = Units.inchesToMeters(26.0);
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
       new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
       new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -174,13 +174,13 @@ public final class Constants {
     public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0;  //22
   }
   public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 2.0;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
-                DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
-        public static final double kPXController = 0.75;
-        public static final double kPYController = 0.75;
+                DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10.0;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3.0;
+        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4.0;
+        public static final double kPXController = 1.5;
+        public static final double kPYController = 1.5;
         public static final double kPThetaController = 3;
 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 

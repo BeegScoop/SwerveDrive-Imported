@@ -84,6 +84,10 @@ public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReve
     public double getTurningPosition(){
         return turningEncoder.getPosition();
     }
+    //gets that swerve module position idk
+    public SwerveModulePosition getPosition(){
+        return new SwerveModulePosition(getDrivePosition(),new Rotation2d(getTurningPosition()));
+    }
     //gets drive encoder velocity in m/s
     public double getDriveVelocity(){
         return driveEncoder.getVelocity();
@@ -135,10 +139,7 @@ public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReve
         //creates a current state from the current drive velocity and turning position
         return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));    
     }
-    //gets that swerve module position idk
-    public SwerveModulePosition getPosition(){
-        return new SwerveModulePosition();
-    }
+    
     
     public void setDesiredState(SwerveModuleState state){
         //does not set a state if there is no speed in the new state
