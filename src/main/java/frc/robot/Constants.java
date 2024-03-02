@@ -81,9 +81,9 @@ public final class Constants {
     
   }
   public static class HerderConstants{
-   
+    public static final double kHerderMotorGearRatio = (1/4)*(1/3)*1.0;
     public static final double kHerderWheelDiameterMeters = Units.inchesToMeters(3);
-    public static final double kHerderEncoderRot2Meter = Math.PI * kHerderWheelDiameterMeters;
+    public static final double kHerderEncoderRot2Meter = kHerderMotorGearRatio*Math.PI * kHerderWheelDiameterMeters;
     public static final double kHerderEncoderRPM2MeterPerSec = kHerderEncoderRot2Meter/60;
     //check
     public static final int kTopHerderMotorPort = 104;
@@ -94,6 +94,7 @@ public final class Constants {
     public static final double kHerderMotorSpeed = 1.0;
     
   }
+
   public static class WinchConstants{
     
     //check
@@ -104,7 +105,7 @@ public final class Constants {
 
     public static final double kMeterLimitBot = 0;
     public static final double kMeterLimitTop = 0;
-    //check
+    //check buttheads
     public static final int kWinchMotorPort = 40;
     public static final boolean kWinchMotorReversed = false;
     public static final double kWinchForwardSpeed =1.0;
