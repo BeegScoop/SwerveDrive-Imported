@@ -31,46 +31,46 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FlyWheelSubsystem extends SubsystemBase {
   /** Creates a new HerderSubsystem. */
-  private CANSparkMax rightFlyMotor;
-  private CANSparkMax leftFlyMotor;
-  private RelativeEncoder rightFlyEncoder;
-  private RelativeEncoder leftFlyEncoder;
+  // private CANSparkMax rightFlyMotor;
+  // private CANSparkMax leftFlyMotor;
+  // private RelativeEncoder rightFlyEncoder;
+  // private RelativeEncoder leftFlyEncoder;
   
   public FlyWheelSubsystem() {
-    rightFlyMotor = new CANSparkMax(FlyConstants.kRightFlyMotorPort,MotorType.kBrushless);
-    leftFlyMotor = new CANSparkMax(FlyConstants.kLeftFlyMotorPort,MotorType.kBrushless);
-    rightFlyEncoder = rightFlyMotor.getEncoder();
-    leftFlyEncoder = leftFlyMotor.getEncoder();
-    rightFlyEncoder.setPositionConversionFactor(FlyConstants.kFlyEncoderRot2Meter);
-    leftFlyEncoder.setPositionConversionFactor(FlyConstants.kFlyEncoderRot2Meter);
-    rightFlyEncoder.setVelocityConversionFactor(FlyConstants.kFlyEncoderRPM2MeterPerSec);
-    leftFlyEncoder.setVelocityConversionFactor(FlyConstants.kFlyEncoderRPM2MeterPerSec);
+    // rightFlyMotor = new CANSparkMax(FlyConstants.kRightFlyMotorPort,MotorType.kBrushless);
+    // leftFlyMotor = new CANSparkMax(FlyConstants.kLeftFlyMotorPort,MotorType.kBrushless);
+    // rightFlyEncoder = rightFlyMotor.getEncoder();
+    // leftFlyEncoder = leftFlyMotor.getEncoder();
+    // rightFlyEncoder.setPositionConversionFactor(FlyConstants.kFlyEncoderRot2Meter);
+    // leftFlyEncoder.setPositionConversionFactor(FlyConstants.kFlyEncoderRot2Meter);
+    // rightFlyEncoder.setVelocityConversionFactor(FlyConstants.kFlyEncoderRPM2MeterPerSec);
+    // leftFlyEncoder.setVelocityConversionFactor(FlyConstants.kFlyEncoderRPM2MeterPerSec);
   }
   public void flyIn(){
-    if(FlyConstants.kLeftFlyMotorReversed){
-      leftFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
-    }else{
-      leftFlyMotor.set(FlyConstants.kFlyMotorSpeed);
-    }
+    // if(FlyConstants.kLeftFlyMotorReversed){
+    //   leftFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
+    // }else{
+    //   leftFlyMotor.set(FlyConstants.kFlyMotorSpeed);
+    // }
     
-    if(FlyConstants.kRightFlyMotorReversed){
-      rightFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
-    }else{
-      rightFlyMotor.set(FlyConstants.kFlyMotorSpeed);
-    }
+    // if(FlyConstants.kRightFlyMotorReversed){
+    //   rightFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
+    // }else{
+    //   rightFlyMotor.set(FlyConstants.kFlyMotorSpeed);
+    // }
     
   }
   public void flyOut(){
-    if(FlyConstants.kLeftFlyMotorReversed){
-      leftFlyMotor.set(FlyConstants.kFlyMotorSpeed);
-    }else{
-      leftFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
-    }
-    if(FlyConstants.kRightFlyMotorReversed){
-      rightFlyMotor.set(FlyConstants.kFlyMotorSpeed);
-    }else{
-      rightFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
-    }
+    // if(FlyConstants.kLeftFlyMotorReversed){
+    //   leftFlyMotor.set(FlyConstants.kFlyMotorSpeed);
+    // }else{
+    //   leftFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
+    // }
+    // if(FlyConstants.kRightFlyMotorReversed){
+    //   rightFlyMotor.set(FlyConstants.kFlyMotorSpeed);
+    // }else{
+    //   rightFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
+    // }
     
     
   }
@@ -78,9 +78,9 @@ public class FlyWheelSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Relative rightFly Encoder", rightFlyEncoder.getPosition() );
-    SmartDashboard.putNumber("Relative leftFly Encoder", leftFlyEncoder.getPosition() );
-    SmartDashboard.putNumber("Relative rightFly Encoder Velocity", rightFlyEncoder.getVelocity() );
-    SmartDashboard.putNumber("Relative leftFly Encoder Velocity", leftFlyEncoder.getVelocity() );
+    // SmartDashboard.putNumber("Relative rightFly Encoder", rightFlyEncoder.getPosition() );
+    // SmartDashboard.putNumber("Relative leftFly Encoder", leftFlyEncoder.getPosition() );
+    // SmartDashboard.putNumber("Relative rightFly Encoder Velocity", rightFlyEncoder.getVelocity() );
+    // SmartDashboard.putNumber("Relative leftFly Encoder Velocity", leftFlyEncoder.getVelocity() );
   }
 }

@@ -33,45 +33,45 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HerderSubsystem extends SubsystemBase {
   /** Creates a new HerderSubsystem. */
-  private CANSparkMax topHerderMotor;
-  private CANSparkMax botHerderMotor;
-  private RelativeEncoder topHerderEncoder;
-  private RelativeEncoder botHerderEncoder;
+  // private CANSparkMax topHerderMotor;
+  // private CANSparkMax botHerderMotor;
+  // private RelativeEncoder topHerderEncoder;
+  // private RelativeEncoder botHerderEncoder;
   
   public HerderSubsystem() {
-    topHerderMotor = new CANSparkMax(HerderConstants.kTopHerderMotorPort, MotorType.kBrushless);
-    botHerderMotor = new CANSparkMax(HerderConstants.kBotHerderMotorPort, MotorType.kBrushless);
-    topHerderEncoder = topHerderMotor.getEncoder();
-    botHerderEncoder = botHerderMotor.getEncoder();
-    topHerderEncoder.setPositionConversionFactor(HerderConstants.kHerderEncoderRot2Meter);
-    topHerderEncoder.setVelocityConversionFactor(HerderConstants.kHerderEncoderRPM2MeterPerSec);
-    botHerderEncoder.setPositionConversionFactor(HerderConstants.kHerderEncoderRot2Meter);
-    botHerderEncoder.setVelocityConversionFactor(HerderConstants.kHerderEncoderRPM2MeterPerSec);
+    // topHerderMotor = new CANSparkMax(HerderConstants.kTopHerderMotorPort, MotorType.kBrushless);
+    // botHerderMotor = new CANSparkMax(HerderConstants.kBotHerderMotorPort, MotorType.kBrushless);
+    // topHerderEncoder = topHerderMotor.getEncoder();
+    // botHerderEncoder = botHerderMotor.getEncoder();
+    // topHerderEncoder.setPositionConversionFactor(HerderConstants.kHerderEncoderRot2Meter);
+    // topHerderEncoder.setVelocityConversionFactor(HerderConstants.kHerderEncoderRPM2MeterPerSec);
+    // botHerderEncoder.setPositionConversionFactor(HerderConstants.kHerderEncoderRot2Meter);
+    // botHerderEncoder.setVelocityConversionFactor(HerderConstants.kHerderEncoderRPM2MeterPerSec);
   }
 
   public void herderIn(){
-    if(HerderConstants.kTopHerderMotorReversed){
-      topHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
-    }else{
-      topHerderMotor.set(HerderConstants.kHerderMotorSpeed);
-    }
-    if(HerderConstants.kBotHerderMotorReversed){
-      botHerderMotor.set(HerderConstants.kHerderMotorSpeed);
-    }else{
-      botHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
-    }
+    // if(HerderConstants.kTopHerderMotorReversed){
+    //   topHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
+    // }else{
+    //   topHerderMotor.set(HerderConstants.kHerderMotorSpeed);
+    // }
+    // if(HerderConstants.kBotHerderMotorReversed){
+    //   botHerderMotor.set(HerderConstants.kHerderMotorSpeed);
+    // }else{
+    //   botHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
+    // }
   }
   public void herderOut(){
-    if(HerderConstants.kTopHerderMotorReversed){
-      topHerderMotor.set(HerderConstants.kHerderMotorSpeed);
-    }else{
-      topHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
-    }
-    if(HerderConstants.kBotHerderMotorReversed){
-      botHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
-    }else{
-      botHerderMotor.set(HerderConstants.kHerderMotorSpeed);
-    }
+    // if(HerderConstants.kTopHerderMotorReversed){
+    //   topHerderMotor.set(HerderConstants.kHerderMotorSpeed);
+    // }else{
+    //   topHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
+    // }
+    // if(HerderConstants.kBotHerderMotorReversed){
+    //   botHerderMotor.set(HerderConstants.kHerderMotorSpeed*(-1.0));
+    // }else{
+    //   botHerderMotor.set(HerderConstants.kHerderMotorSpeed);
+    // }
   }
 
   @Override

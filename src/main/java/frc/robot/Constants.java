@@ -179,8 +179,8 @@ public final class Constants {
                 DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
-        public static final double kPXController = 1.5;
-        public static final double kPYController = 1.5;
+        public static final double kPXController = 0.75;
+        public static final double kPYController = 0.75;
         public static final double kPThetaController = 3;
 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
@@ -201,28 +201,29 @@ public final class Constants {
 
 
     ///////////////////////buttons\\\\\\\\\\\\\\\\\
-    //One
-    public static final int kRestGyrobutton = 2;
+    //One'
+    public static final int kDriverFieldOrientedButtonIdx =1;
+    public static final int kRestGyrobutton = 3;
     //Two
     //Y
-    public static final int kFlyWheelFwdButton = 3;
+    public static final int kFlyWheelFwdButton = 4;
     //A
-    public static final int kFlyWheelBwdButton = 0;
+    public static final int kFlyWheelBwdButton = 1;
     //right trigger
-    public static final int kArmForwardButton = 5;
+    public static final int kArmForwardButton = 6;
     //left trigger
-    public static final int kArmBackwardButton = 4;
+    public static final int kArmBackwardButton = 5;
     //B
-    public static final int kHerderInButton = 2;
+    public static final int kHerderInButton = 3;
     //X
-    public static final int kHerderOutButton = 1;
+    public static final int kHerderOutButton = 2;
     //Plus up (POV button in degrees)
     public static final int kExtendLiftButton = 0;
     //Plus down
     public static final int kRetractLiftButton = 180;
 
 
-    public static final int kDriverFieldOrientedButtonIdx =1;
+    
 
     public static final double kDeadband = 0.1;
 }
