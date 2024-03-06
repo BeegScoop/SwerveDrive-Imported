@@ -9,6 +9,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ResetGyroCmd;
+import frc.robot.commands.ShootCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 
 
@@ -77,7 +78,9 @@ public class RobotContainer {
     
     //////////Controller Two\\\\\\\\\\\\\\\\\
     //Y and A
-    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyOut));
+    // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyOut));
+    //this one runs herder and fly wheels at the same time
+    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new ShootCmd(flyWheelSubsystem,herderSubsystem));
     new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelBwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyIn));
     //left and right trigger
     new JoystickButton(driverJoystickTwo, OIConstants.kArmForwardButton).onTrue(new InstantCommand(armSubsystem::turnArmForward));
