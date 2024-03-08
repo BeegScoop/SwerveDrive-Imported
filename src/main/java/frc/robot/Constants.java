@@ -108,8 +108,8 @@ public final class Constants {
     //check buttheads
     public static final int kWinchMotorPort = 40;
     public static final boolean kWinchMotorReversed = false;
-    public static final double kWinchForwardSpeed =1.0;
-    public static final double kWinchBackwardSpeed = -1.0;
+    public static final double kWinchForwardSpeed =0.1;
+    public static final double kWinchBackwardSpeed = -0.1;
 
     public static final double kPWinch = 0.1;
   }

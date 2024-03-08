@@ -8,6 +8,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.HoldArmCmd;
 import frc.robot.commands.LineUpCmd;
 import frc.robot.commands.ResetGyroCmd;
 import frc.robot.commands.ShootCmd;
@@ -51,8 +52,7 @@ public class RobotContainer {
   private final WinchSubsystem winchSubsystem = new WinchSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
-  //XBOX CONTROLLER ON PORT 0 AND JOYSTICK ON PORT 1
-  //Press "X" on the xbox controller to toggle between
+  //Driver CONTROLLER ON PORT 0 AND Utilities ON PORT 1
   private final Joystick driverJoystickOne = new Joystick(OIConstants.kDriverControllerOnePort);
   private final Joystick driverJoystickTwo = new Joystick(OIConstants.kDriverControllerTwoPort);
  
@@ -68,6 +68,8 @@ public class RobotContainer {
               () -> driverJoystickOne.getRawAxis(OIConstants.kDriverXAxis),
               () -> driverJoystickOne.getRawAxis(OIConstants.kDriverRotAxisXbox),
               () -> !driverJoystickOne.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+
+      armSubsystem.setDefaultCommand(new HoldArmCmd(armSubsystem));
 
       configureButtonBindings();
   }

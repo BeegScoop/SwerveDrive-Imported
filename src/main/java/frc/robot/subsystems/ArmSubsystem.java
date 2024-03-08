@@ -29,16 +29,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
-  // private CANSparkMax armMotor;
-  // private RelativeEncoder armEncoder;
+  private CANSparkMax armMotor;
+  private RelativeEncoder armEncoder;
   // private PIDController armPidController;
   public ArmSubsystem() {
     
-    // armMotor = new CANSparkMax(ArmConstants.kArmMotorPort,MotorType.kBrushless);
+    armMotor = new CANSparkMax(ArmConstants.kArmMotorPort,MotorType.kBrushless);
     // armEncoder = armMotor.getEncoder();
     // armEncoder.setPositionConversionFactor(ArmConstants.kArmEncoderRot2Rad);
     // armEncoder.setVelocityConversionFactor(ArmConstants.kArmEncoderRPM2RadPerSec);
     // armPidController = new PIDController(ArmConstants.kPArm, 0, 0);
+    armMotor.setSmartCurrentLimit(30);
     
   }
   public void turnArmForward(){
@@ -70,6 +71,10 @@ public class ArmSubsystem extends SubsystemBase {
     //does this need a reversal????
     //test
     // armMotor.set(armPidController.calculate(armEncoder.getPosition(), posRad));
+  }
+  public double getArmPosition(){
+    return armEncoder.getPosition();
+
   }
   @Override
   public void periodic() {

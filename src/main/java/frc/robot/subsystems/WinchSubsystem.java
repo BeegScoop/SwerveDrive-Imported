@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class WinchSubsystem extends SubsystemBase {
   /** Creates a new WinchSubsystem. */
-  // private CANSparkMax winchMotor;
+  private CANSparkMax winchMotor;
   // private RelativeEncoder winchEncoder;
   // private PIDController winchPidController;
   public WinchSubsystem() {
@@ -43,6 +43,7 @@ public class WinchSubsystem extends SubsystemBase {
     // winchEncoder.setPositionConversionFactor(WinchConstants.kWinchEncoderRot2Meter);
     // winchEncoder.setVelocityConversionFactor(WinchConstants.kWinchEncoderRPM2MeterPerSec);
     // winchPidController = new PIDController(WinchConstants.kPWinch, 0, 0);
+    // winchMotor.setSmartCurrentLimit(30);
   }
   public void extendLift(){
     // if(WinchConstants.kWinchMotorReversed){
