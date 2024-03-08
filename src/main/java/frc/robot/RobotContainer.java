@@ -88,6 +88,9 @@ public class RobotContainer {
     //this one runs herder and fly wheels at the same time
     new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new ShootCmd(flyWheelSubsystem,herderSubsystem));
     new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelBwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyIn));
+    // if you want to just have a basic fly wheel shoot command use this one rather than the ShootCmd One
+    // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyOut));
+
     //left and right trigger
     new JoystickButton(driverJoystickTwo, OIConstants.kArmForwardButton).onTrue(new InstantCommand(armSubsystem::turnArmForward));
     new JoystickButton(driverJoystickTwo, OIConstants.kArmBackwardButton).onTrue(new InstantCommand(armSubsystem::turnArmBackward));
