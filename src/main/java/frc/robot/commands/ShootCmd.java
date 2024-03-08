@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlyWheelSubsystem;
 import frc.robot.subsystems.HerderSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ShootCmd extends Command {
   /** Creates a new ShootCmd. */
@@ -29,8 +31,25 @@ public class ShootCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flyWheelSubsystem.flyOut();;
-    herderSubsystem.herderIn();
+    //backs the motor up for a certain time in order to give the flywheel time to spin up
+    //edit delay for the time it takes for motor to spin up
+    Timer timer = new Timer();
+    herderSubsystem.herderOut();
+    flyWheelSubsystem.flyOut();
+    timer.schedule(new TimerTask() {
+    @Override
+    public void run() {
+      herderSubsystem.herderStop();
+    }//delay in ms
+    }, 200);
+    timer.schedule(new TimerTask() {
+    @Override
+    public void run() {
+      herderSubsystem.herderIn();
+    }//waits 5 seconds before shooting
+    }, 5000);
+  
+      
   }
 
   // Called once the command ends or is interrupted.

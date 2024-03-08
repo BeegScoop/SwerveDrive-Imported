@@ -73,6 +73,10 @@ public class HerderSubsystem extends SubsystemBase {
     //   botHerderMotor.set(HerderConstants.kHerderMotorSpeed);
     // }
   }
+  public void herderStop(){
+    // topHerderMotor.set(0);
+    // botHerderMotor.set(0);
+  }
 
   @Override
   public void periodic() {
