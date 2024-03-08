@@ -137,7 +137,6 @@ public final class Constants {
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
     
     
-    //still need to be confirmed
     public static final int kFrontLeftDriveMotorPort = 11;
     public static final int kBackLeftDriveMotorPort = 3;
     public static final int kFrontRightDriveMotorPort = 4;
@@ -202,9 +201,12 @@ public final class Constants {
 
 
     ///////////////////////buttons\\\\\\\\\\\\\\\\\
-    //One'
+    //One
     public static final int kDriverFieldOrientedButtonIdx =1;
+    //B
     public static final int kRestGyrobutton = 3;
+    //Y
+    public static final int kShootSequenceButton = 4;
     //Two
     //Y
     public static final int kFlyWheelFwdButton = 4;
@@ -228,4 +230,17 @@ public final class Constants {
 
     public static final double kDeadband = 0.1;
 }
+  public static final class LimeConstants{
+    public static final double kSpeakerTagHieght = 0.0;
+    public static final double kCameraHieght = 0.0;
+    public static final double kPTwistController = 1.0;
+    public static final double kDTwistController = 0.009;
+    public static final double kMaxAngularSpeedRadiansPerSecond = //
+          DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 5.0;
+    public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4.0;
+    public static final TrapezoidProfile.Constraints kTwistControllerConstraints = 
+                new TrapezoidProfile.Constraints(
+                        kMaxAngularSpeedRadiansPerSecond,
+                        kMaxAngularAccelerationRadiansPerSecondSquared);
+  }
 }

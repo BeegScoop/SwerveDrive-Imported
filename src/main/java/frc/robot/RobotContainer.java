@@ -8,6 +8,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.LineUpCmd;
 import frc.robot.commands.ResetGyroCmd;
 import frc.robot.commands.ShootCmd;
 import frc.robot.commands.SwerveJoystickCmd;
@@ -75,7 +76,10 @@ public class RobotContainer {
     //////////Controller One\\\\\\\\\\\\\\\\
     //resets the gyro mid drive
     new JoystickButton(driverJoystickOne, OIConstants.kRestGyrobutton).onTrue(new ResetGyroCmd(swerveSubsystem)); 
-    
+    //toggle on to pivot to the apriltag
+    //make sure the april tag is IN VIEW
+    new JoystickButton(driverJoystickOne, OIConstants.kShootSequenceButton).toggleOnTrue(new LineUpCmd(swerveSubsystem)); 
+
     //////////Controller Two\\\\\\\\\\\\\\\\\
     //Y and A
     // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyOut));
