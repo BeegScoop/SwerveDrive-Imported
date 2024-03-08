@@ -16,11 +16,14 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 
+
 public class SwerveSubsystem extends SubsystemBase{
+      private Spark LEDStrip = new Spark(0);
    //creates module instances using the swerveModule.java file
     private final SwerveModule frontLeft = new SwerveModule(
         DriveConstants.kFrontLeftDriveMotorPort, 
@@ -102,6 +105,9 @@ public class SwerveSubsystem extends SubsystemBase{
     }
     @Override
     public void periodic() {
+        //rainbow 
+        LEDStrip.set(-0.95);
+        //updates odometer based on new positions which take into account turn encoder and drive encoder along with position on robot
         odometer.update(getRotation2d(),new SwerveModulePosition[]{frontLeft.getPosition(),frontRight.getPosition(),backLeft.getPosition(),backRight.getPosition()} );
         SmartDashboard.putString("frontLeft", frontLeft.getPosition().toString());
         SmartDashboard.putString("frontRight", frontRight.getPosition().toString());

@@ -27,7 +27,7 @@ public class LineUpCmd extends Command {
   public LineUpCmd(SwerveSubsystem swerveSubsystem) {
     this.swerveSubsystem = swerveSubsystem;
 
-    // Use addRequirements() here to declare subsystem dependencies.
+    //crate a PID controller for our twisting motion (NEEDS TO BE TUNED: JUST EDIT kPTwist and kDTwistt in constants)
     twistController = new ProfiledPIDController(
         LimeConstants.kPTwistController,0, LimeConstants.kDTwistController, LimeConstants.kTwistControllerConstraints);
     twistController.setTolerance(Math.PI/180);
@@ -41,15 +41,16 @@ public class LineUpCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    //aims to create module states based on the reading of the limelight vs desired reading of the limelight
     double xSpeed = 0;
     double ySpeed = 0;
     double turningSpeed = -1.0*twistController.calculate(
+      //converts TX which is returned in degrees to radians (idk if this is necessary but it keeps the same units as constraints)
     (LimelightHelpers.getTX("limelight")/180)*Math.PI,
     0
     );
     ChassisSpeeds chassisSpeeds;
-    // Relative to field
+    // Takes the twist speeds along with the 0 x and y speeds and converts them to something that can be input into each swerve modules
     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
           xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
                 

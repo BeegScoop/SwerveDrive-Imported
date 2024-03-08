@@ -64,6 +64,8 @@ public class ArmSubsystem extends SubsystemBase {
     //   armMotor.set(0);
     // }
   }
+  //input a radius relative to the starting position of the arm
+  //BE CAREFUL: PID COULD BE SET IN WRONG DIRECTION SO START ARM IN THE MIDDLE AND BE READY TO STOP THAT JOHN
   public void setArmPosition(double posRad){
     //does this need a reversal????
     //test

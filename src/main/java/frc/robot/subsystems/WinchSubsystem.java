@@ -59,6 +59,7 @@ public class WinchSubsystem extends SubsystemBase {
     //   winchMotor.set(WinchConstants.kWinchBackwardSpeed);
     // }
   }
+  //I dont think this is going to be of use
   public void setLiftPosition(double posMeters){
     //does this need a reversal????
     //test
