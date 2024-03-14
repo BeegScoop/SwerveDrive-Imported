@@ -19,8 +19,6 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 100;
-
     //MotorConversionFactors
     // public static final double kDriveEncoderRot2Meter = 0;
     // public static final double kDriveEncoderRPM2MeterPerSec = 0;
@@ -55,15 +53,15 @@ public final class Constants {
     public static final double kArmEncoderRot2Rad = kArmMotorGearRatio *2*Math.PI;
     public static final double kArmEncoderRPM2RadPerSec = kArmEncoderRot2Rad/60;
     //check
-    public static final int kArmMotorPort = 101;
+    public static final int kArmMotorPort = 42;
     public static final boolean kArmMotorReversed = false;
-    public static final double kRadLimitBot = 0;
-    public static final double kRadLimitTop = 0;
+    public static final double kRadLimitBot = -100;
+    public static final double kRadLimitTop = 100;
     //test
     public static final double kForwardSpeed = 0.1;
     public static final double kBackwardSpeed = -0.1;
     //test
-    public static final double kPArm = 0.05;
+    public static final double kPArm = 0.5;
   }
 
   public static class FlyConstants{
@@ -71,12 +69,12 @@ public final class Constants {
     public static final double kFlyEncoderRot2Meter = Math.PI * kFlyWheelDiameterMeters;
     public static final double kFlyEncoderRPM2MeterPerSec = kFlyEncoderRot2Meter/60;
     //check
-    public static final int kRightFlyMotorPort = 102;
-    public static final int kLeftFlyMotorPort = 103;
+    public static final int kRightFlyMotorPort = 30;
+    public static final int kLeftFlyMotorPort = 24;
     public static final boolean kRightFlyMotorReversed = false;
-    public static final boolean kLeftFlyMotorReversed = false;
+    public static final boolean kLeftFlyMotorReversed = true;
 
-    public static final double kFlyMotorSpeed = 1.0;
+    public static final double kFlyMotorSpeed = 0.5;
     
     
   }
@@ -86,12 +84,12 @@ public final class Constants {
     public static final double kHerderEncoderRot2Meter = kHerderMotorGearRatio*Math.PI * kHerderWheelDiameterMeters;
     public static final double kHerderEncoderRPM2MeterPerSec = kHerderEncoderRot2Meter/60;
     //check
-    public static final int kTopHerderMotorPort = 104;
-    public static final int kBotHerderMotorPort = 105;
-    public static final boolean kTopHerderMotorReversed = false;
+    public static final int kTopHerderMotorPort = 51;
+    public static final int kBotHerderMotorPort = 50;
+    public static final boolean kTopHerderMotorReversed = true;
     public static final boolean kBotHerderMotorReversed = false;
 
-    public static final double kHerderMotorSpeed = 1.0;
+    public static final double kHerderMotorSpeed = 0.5;
     
   }
 
@@ -103,8 +101,8 @@ public final class Constants {
     public static final double kWinchEncoderRot2Meter = kWinchMotorGearRatio*Math.PI * kWinchWheelDiameterMeters;
     public static final double kWinchEncoderRPM2MeterPerSec = kWinchEncoderRot2Meter/60;
 
-    public static final double kMeterLimitBot = 0;
-    public static final double kMeterLimitTop = 0;
+    public static final double kMeterLimitBot = -100;
+    public static final double kMeterLimitTop = 100;
     //check buttheads
     public static final int kWinchMotorPort = 40;
     public static final boolean kWinchMotorReversed = false;

@@ -5,35 +5,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.HerderSubsystem;
 
-public class HoldArmCmd extends Command {
-  /** Creates a new HoldArmCmd. */
-  private final ArmSubsystem armSubsystem;
-  double keptPos;
-  public HoldArmCmd(ArmSubsystem armSubsystem) {
-    this.armSubsystem = armSubsystem;
-    addRequirements(armSubsystem);
+public class HerderOutCmd extends Command {
+  /** Creates a new HerderOutCmd. */
+    private final HerderSubsystem herderSubsystem;
 
+  public HerderOutCmd(HerderSubsystem herderSubsystem) {
+    this.herderSubsystem = herderSubsystem;
+    addRequirements(herderSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-      keptPos = armSubsystem.getArmPosition();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.setArmPosition(keptPos);
+    herderSubsystem.herderOut();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armSubsystem.stopArm();
+    herderSubsystem.herderStop();
   }
 
   // Returns true when the command should end.

@@ -9,6 +9,7 @@ import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -31,46 +32,52 @@ public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
   private CANSparkMax armMotor;
   private RelativeEncoder armEncoder;
-  // private PIDController armPidController;
+  private PIDController armPidController;
   public ArmSubsystem() {
     
     armMotor = new CANSparkMax(ArmConstants.kArmMotorPort,MotorType.kBrushless);
-    // armEncoder = armMotor.getEncoder();
-    // armEncoder.setPositionConversionFactor(ArmConstants.kArmEncoderRot2Rad);
-    // armEncoder.setVelocityConversionFactor(ArmConstants.kArmEncoderRPM2RadPerSec);
-    // armPidController = new PIDController(ArmConstants.kPArm, 0, 0);
+    armEncoder = armMotor.getEncoder();
+    armEncoder.setPositionConversionFactor(ArmConstants.kArmEncoderRot2Rad);
+    armEncoder.setVelocityConversionFactor(ArmConstants.kArmEncoderRPM2RadPerSec);
+    armPidController = new PIDController(ArmConstants.kPArm, 0, 0);
     armMotor.setSmartCurrentLimit(30);
     
   }
   public void turnArmForward(){
-    // if(armEncoder.getPosition()>ArmConstants.kRadLimitBot){
-    //   if(ArmConstants.kArmMotorReversed){
-    //     armMotor.set(ArmConstants.kForwardSpeed*(-1.0));
-    //   }else{
-    //     armMotor.set(ArmConstants.kForwardSpeed);
-    //   }
-    // }else {
-    //   armMotor.set(0);
-    // }
+    armMotor.set(ArmConstants.kForwardSpeed);
+    if((armEncoder.getPosition())>ArmConstants.kRadLimitBot){
+      if(ArmConstants.kArmMotorReversed){
+        armMotor.set(ArmConstants.kForwardSpeed*(-1.0));
+      }else{
+        armMotor.set(ArmConstants.kForwardSpeed);
+      }
+    }else {
+      armMotor.set(0);
+    }
     
   }
   public void turnArmBackward(){
-    // if(armEncoder.getPosition()<ArmConstants.kRadLimitTop){
-    //   if(ArmConstants.kArmMotorReversed){
-    //     armMotor.set(ArmConstants.kBackwardSpeed*(-1.0));
-    //   }else{
-    //     armMotor.set(ArmConstants.kBackwardSpeed);
-    //   }
-    // }else{
-    //   armMotor.set(0);
-    // }
+  
+
+    if((armEncoder.getPosition())<ArmConstants.kRadLimitTop){
+      if(ArmConstants.kArmMotorReversed){
+        armMotor.set(ArmConstants.kBackwardSpeed*(-1.0));
+      }else{
+        armMotor.set(ArmConstants.kBackwardSpeed);
+      }
+    }else{
+      armMotor.set(0);
+    }
+  }
+  public void stopArm(){
+    armMotor.set(0);
   }
   //input a radius relative to the starting position of the arm
   //BE CAREFUL: PID COULD BE SET IN WRONG DIRECTION SO START ARM IN THE MIDDLE AND BE READY TO STOP THAT JOHN
   public void setArmPosition(double posRad){
     //does this need a reversal????
     //test
-    // armMotor.set(armPidController.calculate(armEncoder.getPosition(), posRad));
+    armMotor.set(armPidController.calculate(armEncoder.getPosition(), posRad));
   }
   public double getArmPosition(){
     return armEncoder.getPosition();
@@ -79,7 +86,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Relative Arm Encoder", armEncoder.getPosition() );
+    SmartDashboard.putNumber("Relative Arm Encoder", armEncoder.getPosition() );
   }
 
 

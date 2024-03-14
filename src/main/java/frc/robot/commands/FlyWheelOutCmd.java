@@ -5,35 +5,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.FlyWheelSubsystem;
 
-public class HoldArmCmd extends Command {
-  /** Creates a new HoldArmCmd. */
-  private final ArmSubsystem armSubsystem;
-  double keptPos;
-  public HoldArmCmd(ArmSubsystem armSubsystem) {
-    this.armSubsystem = armSubsystem;
-    addRequirements(armSubsystem);
+public class FlyWheelOutCmd extends Command {
+  /** Creates a new FlyWheelFwdCmd. */
+    private final FlyWheelSubsystem flyWheelSubsystem;
 
+  public FlyWheelOutCmd(FlyWheelSubsystem flyWheelSubsystem) {
+    this.flyWheelSubsystem = flyWheelSubsystem;
+    addRequirements(flyWheelSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-      keptPos = armSubsystem.getArmPosition();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.setArmPosition(keptPos);
+    flyWheelSubsystem.flyOut();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armSubsystem.stopArm();
+    flyWheelSubsystem.flyStop();
   }
 
   // Returns true when the command should end.

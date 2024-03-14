@@ -7,27 +7,24 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class HoldArmCmd extends Command {
-  /** Creates a new HoldArmCmd. */
-  private final ArmSubsystem armSubsystem;
-  double keptPos;
-  public HoldArmCmd(ArmSubsystem armSubsystem) {
+public class ArmFwdCmd extends Command {
+  /** Creates a new ArmFwdCmd. */
+    private final ArmSubsystem armSubsystem;
+
+  public ArmFwdCmd(ArmSubsystem armSubsystem) {
     this.armSubsystem = armSubsystem;
     addRequirements(armSubsystem);
-
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-      keptPos = armSubsystem.getArmPosition();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.setArmPosition(keptPos);
+    armSubsystem.turnArmForward();
   }
 
   // Called once the command ends or is interrupted.

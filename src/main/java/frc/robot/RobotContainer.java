@@ -8,13 +8,22 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ArmBwdCmd;
+import frc.robot.commands.ArmFwdCmd;
+import frc.robot.commands.FlyWheelInCmd;
+import frc.robot.commands.FlyWheelOutCmd;
+import frc.robot.commands.HerderInCmd;
+import frc.robot.commands.HerderOutCmd;
 import frc.robot.commands.HoldArmCmd;
 import frc.robot.commands.LineUpCmd;
 import frc.robot.commands.ResetGyroCmd;
 import frc.robot.commands.ShootCmd;
+import frc.robot.commands.FlyWheelInCmd;
+import frc.robot.commands.FlyWheelOutCmd;
+
 import frc.robot.commands.SwerveJoystickCmd;
-
-
+import frc.robot.commands.WinchExtendCmd;
+import frc.robot.commands.WinchRetractCmd;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.HerderSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -77,7 +86,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //////////Controller One\\\\\\\\\\\\\\\\
     //resets the gyro mid drive
-    new JoystickButton(driverJoystickOne, OIConstants.kRestGyrobutton).onTrue(new ResetGyroCmd(swerveSubsystem)); 
+    new JoystickButton(driverJoystickOne, OIConstants.kRestGyrobutton).whileTrue(new ResetGyroCmd(swerveSubsystem)); 
     //toggle on to pivot to the apriltag
     //make sure the april tag is IN VIEW
     new JoystickButton(driverJoystickOne, OIConstants.kShootSequenceButton).toggleOnTrue(new LineUpCmd(swerveSubsystem)); 
@@ -86,20 +95,20 @@ public class RobotContainer {
     //Y and A
     // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyOut));
     //this one runs herder and fly wheels at the same time
-    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new ShootCmd(flyWheelSubsystem,herderSubsystem));
-    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelBwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyIn));
+    // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new ShootCmd(flyWheelSubsystem,herderSubsystem));
+    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelBwdButton).whileTrue(new FlyWheelInCmd(flyWheelSubsystem));
     // if you want to just have a basic fly wheel shoot command use this one rather than the ShootCmd One
-    // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyOut));
+    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).whileTrue(new FlyWheelOutCmd(flyWheelSubsystem));
 
     //left and right trigger
-    new JoystickButton(driverJoystickTwo, OIConstants.kArmForwardButton).onTrue(new InstantCommand(armSubsystem::turnArmForward));
-    new JoystickButton(driverJoystickTwo, OIConstants.kArmBackwardButton).onTrue(new InstantCommand(armSubsystem::turnArmBackward));
+    new JoystickButton(driverJoystickTwo, OIConstants.kArmForwardButton).whileTrue(new ArmFwdCmd(armSubsystem));
+    new JoystickButton(driverJoystickTwo, OIConstants.kArmBackwardButton).whileTrue(new ArmBwdCmd(armSubsystem));
     //B and X
-    new JoystickButton(driverJoystickTwo, OIConstants.kHerderInButton).onTrue(new InstantCommand(herderSubsystem::herderIn));
-    new JoystickButton(driverJoystickTwo, OIConstants.kHerderOutButton).onTrue(new InstantCommand(herderSubsystem::herderOut));
+    new JoystickButton(driverJoystickTwo, OIConstants.kHerderInButton).whileTrue(new HerderInCmd(herderSubsystem));
+    new JoystickButton(driverJoystickTwo, OIConstants.kHerderOutButton).whileTrue(new HerderOutCmd(herderSubsystem));
     //PLus up and down
-    new POVButton(driverJoystickTwo, OIConstants.kExtendLiftButton).onTrue(new InstantCommand(winchSubsystem::extendLift));
-    new POVButton(driverJoystickTwo, OIConstants.kRetractLiftButton).onTrue(new InstantCommand(winchSubsystem::retractLift));
+    new POVButton(driverJoystickTwo, OIConstants.kExtendLiftButton).whileTrue(new WinchExtendCmd(winchSubsystem));
+    new POVButton(driverJoystickTwo, OIConstants.kRetractLiftButton).whileTrue(new WinchRetractCmd(winchSubsystem));
 
     //switches over to joystick using x button toggle
     // new JoystickButton(driverJoystickOne, 3).toggleOnTrue(new SwerveJoystickCmd(
