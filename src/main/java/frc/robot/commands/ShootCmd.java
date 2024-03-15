@@ -8,24 +8,29 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlyWheelSubsystem;
 import frc.robot.subsystems.HerderSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import java.util.Timer;
-import java.util.TimerTask;
+import edu.wpi.first.wpilibj.Timer;
+
 
 public class ShootCmd extends Command {
   /** Creates a new ShootCmd. */
+  private Timer timer;
+  private boolean done = false;
   private final FlyWheelSubsystem flyWheelSubsystem;
   private final HerderSubsystem herderSubsystem;
   public ShootCmd(FlyWheelSubsystem flyWheelSubsystem, HerderSubsystem herderSubsystem ) {
     this.flyWheelSubsystem =flyWheelSubsystem;
     this.herderSubsystem = herderSubsystem;
     addRequirements(flyWheelSubsystem,herderSubsystem);
+    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+     
+     timer.reset();
+     done = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,21 +38,24 @@ public class ShootCmd extends Command {
   public void execute() {
     //backs the motor up for a certain time in order to give the flywheel time to spin up
     //edit delay for the time it takes for motor to spin up
-    Timer timer = new Timer();
-    herderSubsystem.herderOut();
-    flyWheelSubsystem.flyOut();
-    timer.schedule(new TimerTask() {
-    @Override
-    public void run() {
+   
+    
+    if(timer.get()>4){
       herderSubsystem.herderStop();
-    }//delay in ms
-    }, 200);
-    timer.schedule(new TimerTask() {
-    @Override
-    public void run() {
-      herderSubsystem.herderIn();
-    }//waits 5 seconds before shooting
-    }, 5000);
+      flyWheelSubsystem.flyStop();
+      done = true;
+    }else if(timer.get()>2){
+       herderSubsystem.herderIn();
+    }else if(timer.get()>0.15){
+      herderSubsystem.herderStop();
+      flyWheelSubsystem.flyOut();
+    }else{
+    herderSubsystem.herderOut();
+    flyWheelSubsystem.flyIn();
+    }
+    
+    
+  
   
       
   }
@@ -55,12 +63,17 @@ public class ShootCmd extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    herderSubsystem.herderStop();
+    flyWheelSubsystem.flyStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(done){
+      return true;
+    }else{
     return false;
+    }
   }
 }

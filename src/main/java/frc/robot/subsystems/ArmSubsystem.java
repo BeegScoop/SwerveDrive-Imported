@@ -8,8 +8,9 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
+
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,19 +33,27 @@ public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
   private CANSparkMax armMotor;
   private RelativeEncoder armEncoder;
+  private AbsoluteEncoder armAbsoluteEncoder;
   private PIDController armPidController;
   public ArmSubsystem() {
     
     armMotor = new CANSparkMax(ArmConstants.kArmMotorPort,MotorType.kBrushless);
     armEncoder = armMotor.getEncoder();
+    armAbsoluteEncoder = armMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     armEncoder.setPositionConversionFactor(ArmConstants.kArmEncoderRot2Rad);
     armEncoder.setVelocityConversionFactor(ArmConstants.kArmEncoderRPM2RadPerSec);
+    //these dont do anything ig
+    armAbsoluteEncoder.setPositionConversionFactor(ArmConstants.kArmAbsoluteRot2Rad);
+    armAbsoluteEncoder.setVelocityConversionFactor(ArmConstants.kArmAbsoluteRPM2RadPerSec);
+
     armPidController = new PIDController(ArmConstants.kPArm, 0, 0);
     armMotor.setSmartCurrentLimit(30);
+    armEncoder.setPosition(armAbsoluteEncoder.getPosition());
+    
     
   }
   public void turnArmForward(){
-    armMotor.set(ArmConstants.kForwardSpeed);
+   
     if((armEncoder.getPosition())>ArmConstants.kRadLimitBot){
       if(ArmConstants.kArmMotorReversed){
         armMotor.set(ArmConstants.kForwardSpeed*(-1.0));
@@ -87,6 +96,8 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Relative Arm Encoder", armEncoder.getPosition() );
+        SmartDashboard.putNumber("Absolute Arm Encoder", armAbsoluteEncoder.getPosition());
+
   }
 
 

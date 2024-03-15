@@ -49,14 +49,26 @@ public final class Constants {
   }
   public static class ArmConstants{
     
-    public static final double kArmMotorGearRatio = (1/5)*(1/4)*(1/3)*(16/66)*1.0;
-    public static final double kArmEncoderRot2Rad = kArmMotorGearRatio *2*Math.PI;
+    public static final double kArmMotorGearRatio = (1/5.0)*(1/4.0)*(1/3.0)*(16/66.0)*1.0;
+    public static final double kArmAbsoluteGearRatio = (16/66.0)*1.0;
+    public static final double kArmEncoderRot2Rad = kArmMotorGearRatio*2*Math.PI;
+    public static final double kArmAbsoluteRot2Rad = kArmAbsoluteGearRatio*2*Math.PI;
     public static final double kArmEncoderRPM2RadPerSec = kArmEncoderRot2Rad/60;
+    public static final double kArmAbsoluteRPM2RadPerSec = kArmAbsoluteRot2Rad/60;
     //check
     public static final int kArmMotorPort = 42;
-    public static final boolean kArmMotorReversed = false;
-    public static final double kRadLimitBot = -100;
-    public static final double kRadLimitTop = 100;
+    public static final boolean kArmMotorReversed = true;
+    public static final double kRadLimitBot = -0.1;
+    public static final double kRadLimitTop = 1.801266;
+    //Angles for the four presets 
+    public static final double kAmpAngle = 1.801266;
+    public static final double kHerdAngle = 0;
+    public static final double kSpeakerCloseAngle = 0.476566;
+    public static final double kSpeakerFarAngle = 0.638889;
+
+    //
+    //7ft from bumper to goal
+
     //test
     public static final double kForwardSpeed = 0.1;
     public static final double kBackwardSpeed = -0.1;
@@ -74,7 +86,7 @@ public final class Constants {
     public static final boolean kRightFlyMotorReversed = false;
     public static final boolean kLeftFlyMotorReversed = true;
 
-    public static final double kFlyMotorSpeed = 0.5;
+    public static final double kFlyMotorSpeed = 0.85;
     
     
   }
@@ -86,10 +98,10 @@ public final class Constants {
     //check
     public static final int kTopHerderMotorPort = 51;
     public static final int kBotHerderMotorPort = 50;
-    public static final boolean kTopHerderMotorReversed = true;
-    public static final boolean kBotHerderMotorReversed = false;
+    public static final boolean kTopHerderMotorReversed = false;
+    public static final boolean kBotHerderMotorReversed = true;
 
-    public static final double kHerderMotorSpeed = 0.5;
+    public static final double kHerderMotorSpeed = 0.75;
     
   }
 
@@ -106,8 +118,8 @@ public final class Constants {
     //check buttheads
     public static final int kWinchMotorPort = 40;
     public static final boolean kWinchMotorReversed = false;
-    public static final double kWinchForwardSpeed =0.1;
-    public static final double kWinchBackwardSpeed = -0.1;
+    public static final double kWinchForwardSpeed =0.35;
+    public static final double kWinchBackwardSpeed = -0.35;
 
     public static final double kPWinch = 0.1;
   }
@@ -199,13 +211,17 @@ public final class Constants {
 
 
     ///////////////////////buttons\\\\\\\\\\\\\\\\\
-    //One
+    //////////////////////////Controller One\\\\\\\\\\\\\\\\\\\\\
     public static final int kDriverFieldOrientedButtonIdx =1;
     //B
     public static final int kRestGyrobutton = 3;
     //Y
     public static final int kShootSequenceButton = 4;
-    //Two
+    //right Trigger
+    public static final int kExtendLiftButton = 6;
+   //left trigger
+    public static final int kRetractLiftButton = 5;
+    /////////////////////////////////Controller Two\\\\\\\\\\\\\\
     //Y
     public static final int kFlyWheelFwdButton = 4;
     //A
@@ -218,10 +234,18 @@ public final class Constants {
     public static final int kHerderInButton = 3;
     //X
     public static final int kHerderOutButton = 2;
+
     //Plus up (POV button in degrees)
-    public static final int kExtendLiftButton = 0;
-    //Plus down
-    public static final int kRetractLiftButton = 180;
+    public static final int kArmHerdButton = 0;
+    //Plus Down
+    public static final int kArmCloseSpeakerButton = 180;
+    //plus right
+    public static final int kArmAmpButton = 90;
+    //plus left
+    public static final int kArmFarSpeakerButton = 270;
+    
+    
+    
 
 
     
@@ -231,7 +255,7 @@ public final class Constants {
   public static final class LimeConstants{
     public static final double kSpeakerTagHieght = 0.0;
     public static final double kCameraHieght = 0.0;
-    public static final double kPTwistController = 1.0;
+    public static final double kPTwistController = 1.5;
     public static final double kDTwistController = 0.009;
     public static final double kMaxAngularSpeedRadiansPerSecond = //
           DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 5.0;

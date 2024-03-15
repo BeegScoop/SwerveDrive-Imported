@@ -8,6 +8,10 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AngleAmpCmd;
+import frc.robot.commands.AngleCloseSpeakerCmd;
+import frc.robot.commands.AngleFarSpeakerCmd;
+import frc.robot.commands.AngleHerdCmd;
 import frc.robot.commands.ArmBwdCmd;
 import frc.robot.commands.ArmFwdCmd;
 import frc.robot.commands.FlyWheelInCmd;
@@ -91,6 +95,11 @@ public class RobotContainer {
     //make sure the april tag is IN VIEW
     new JoystickButton(driverJoystickOne, OIConstants.kShootSequenceButton).toggleOnTrue(new LineUpCmd(swerveSubsystem)); 
 
+    //right and left trigger
+    new JoystickButton(driverJoystickOne, OIConstants.kExtendLiftButton).whileTrue(new WinchExtendCmd(winchSubsystem));
+    new JoystickButton(driverJoystickOne, OIConstants.kRetractLiftButton).whileTrue(new WinchRetractCmd(winchSubsystem));
+
+
     //////////Controller Two\\\\\\\\\\\\\\\\\
     //Y and A
     // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyOut));
@@ -106,9 +115,17 @@ public class RobotContainer {
     //B and X
     new JoystickButton(driverJoystickTwo, OIConstants.kHerderInButton).whileTrue(new HerderInCmd(herderSubsystem));
     new JoystickButton(driverJoystickTwo, OIConstants.kHerderOutButton).whileTrue(new HerderOutCmd(herderSubsystem));
-    //PLus up and down
-    new POVButton(driverJoystickTwo, OIConstants.kExtendLiftButton).whileTrue(new WinchExtendCmd(winchSubsystem));
-    new POVButton(driverJoystickTwo, OIConstants.kRetractLiftButton).whileTrue(new WinchRetractCmd(winchSubsystem));
+    
+
+    //EACH OF THESE IS A PID SETPOINT    HOLD DOWN THE BUTTON TO GET TO THE RESPECTIVE POSITION
+    //plus right
+    new POVButton(driverJoystickTwo, OIConstants.kArmAmpButton).whileTrue(new AngleAmpCmd(armSubsystem));
+    //plus up
+    new POVButton(driverJoystickTwo, OIConstants.kArmHerdButton).whileTrue(new AngleHerdCmd(armSubsystem));
+    //plus down
+    new POVButton(driverJoystickTwo, OIConstants.kArmCloseSpeakerButton).whileTrue(new AngleCloseSpeakerCmd(armSubsystem));
+    //plus left
+    new POVButton(driverJoystickTwo, OIConstants.kArmFarSpeakerButton).whileTrue(new AngleFarSpeakerCmd(armSubsystem));
 
     //switches over to joystick using x button toggle
     // new JoystickButton(driverJoystickOne, 3).toggleOnTrue(new SwerveJoystickCmd(
