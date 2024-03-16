@@ -111,6 +111,8 @@ public class RobotContainer {
     new JoystickButton(driverJoystickOne, OIConstants.kExtendLiftButton).whileTrue(new WinchExtendCmd(winchSubsystem));
     new JoystickButton(driverJoystickOne, OIConstants.kRetractLiftButton).whileTrue(new WinchRetractCmd(winchSubsystem));
 
+    new JoystickButton(driverJoystickOne, OIConstants.kDriverResetArmButton).whileTrue(new InstantCommand(armSubsystem::resetArm));
+
 
     //////////Controller Two\\\\\\\\\\\\\\\\\
     //Y and A

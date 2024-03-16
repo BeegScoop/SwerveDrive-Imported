@@ -216,6 +216,8 @@ public final class Constants {
     ///////////////////////buttons\\\\\\\\\\\\\\\\\
     //////////////////////////Controller One\\\\\\\\\\\\\\\\\\\\\
     public static final int kDriverFieldOrientedButtonIdx =1;
+    //x
+    public static final int kDriverResetArmButton = 2;
     //B
     public static final int kRestGyrobutton = 3;
     //Y
