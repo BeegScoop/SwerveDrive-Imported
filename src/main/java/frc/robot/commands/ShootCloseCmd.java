@@ -4,74 +4,75 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.FlyWheelSubsystem;
 import frc.robot.subsystems.HerderSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
-
-public class ShootCmd extends Command {
-  /** Creates a new ShootCmd. */
-  private Timer timer;
-  
-  private final FlyWheelSubsystem flyWheelSubsystem;
+public class ShootCloseCmd extends Command {
   private final HerderSubsystem herderSubsystem;
-  
-  public ShootCmd(FlyWheelSubsystem flyWheelSubsystem, HerderSubsystem herderSubsystem ) {
-    this.flyWheelSubsystem =flyWheelSubsystem;
+  private final ArmSubsystem armSubsystem;
+  private final FlyWheelSubsystem flyWheelSubsystem;
+  private final Timer timer;
+  private boolean runOnce;
+  /** Creates a new ShootCloseCmd. */
+  public ShootCloseCmd(HerderSubsystem herderSubsystem, ArmSubsystem armSubsystem, FlyWheelSubsystem flyWheelSubsystem) {
     this.herderSubsystem = herderSubsystem;
-    addRequirements(flyWheelSubsystem,herderSubsystem);
+    this.armSubsystem = armSubsystem;
+    this.flyWheelSubsystem = flyWheelSubsystem;
+    addRequirements(herderSubsystem, armSubsystem, flyWheelSubsystem);
     timer = new Timer();
+    runOnce = true;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-     
-     timer.reset();
-     
-     timer.start();
+    timer.reset();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    //backs the motor up for a certain time in order to give the flywheel time to spin up
-    //edit delay for the time it takes for motor to spin up
-    SmartDashboard.putNumber("timer", timer.get());
+  public void execute(){
 
     if(timer.get()<0.17){
+      if(runOnce){
+        armSubsystem.setArmPosition(ArmConstants.kSpeakerCloseAngle);
+        runOnce = false;
+      }
       herderSubsystem.herderOut();
       flyWheelSubsystem.flyIn();
     }else if(timer.get()<1.5){
       herderSubsystem.herderStop();
       flyWheelSubsystem.flyOut();
+              runOnce = true;
+
     }else if(timer.get()<2.5){
       herderSubsystem.herderIn();
 
     }else{
       herderSubsystem.herderStop();
       flyWheelSubsystem.flyStop();
+      if(runOnce){
+        armSubsystem.setArmPosition(ArmConstants.kHerdAngle);
+        runOnce = false;
+      }
+      
     }
-    
-    
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    herderSubsystem.herderStop();
-    flyWheelSubsystem.flyStop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    
     if(timer.get()>2.5){
       return true;
     }else{

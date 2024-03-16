@@ -48,28 +48,28 @@ public class FlyWheelSubsystem extends SubsystemBase {
   }
   public void flyIn(){
     if(FlyConstants.kLeftFlyMotorReversed){
-      leftFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
+      leftFlyMotor.set(FlyConstants.kFlyLeftMotorSpeed*(-1.0));
     }else{
-      leftFlyMotor.set(FlyConstants.kFlyMotorSpeed);
+      leftFlyMotor.set(FlyConstants.kFlyLeftMotorSpeed);
     }
     
     if(FlyConstants.kRightFlyMotorReversed){
-      rightFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
+      rightFlyMotor.set(FlyConstants.kFlyRightMotorSpeed*(-1.0));
     }else{
-      rightFlyMotor.set(FlyConstants.kFlyMotorSpeed);
+      rightFlyMotor.set(FlyConstants.kFlyRightMotorSpeed);
     }
     
   }
   public void flyOut(){
     if(FlyConstants.kLeftFlyMotorReversed){
-      leftFlyMotor.set(FlyConstants.kFlyMotorSpeed);
+      leftFlyMotor.set(FlyConstants.kFlyLeftMotorSpeed);
     }else{
-      leftFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
+      leftFlyMotor.set(FlyConstants.kFlyLeftMotorSpeed*(-1.0));
     }
     if(FlyConstants.kRightFlyMotorReversed){
-      rightFlyMotor.set(FlyConstants.kFlyMotorSpeed);
+      rightFlyMotor.set(FlyConstants.kFlyRightMotorSpeed);
     }else{
-      rightFlyMotor.set(FlyConstants.kFlyMotorSpeed*(-1.0));
+      rightFlyMotor.set(FlyConstants.kFlyRightMotorSpeed*(-1.0));
     }
     
     

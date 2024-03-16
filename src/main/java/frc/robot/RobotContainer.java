@@ -21,9 +21,11 @@ import frc.robot.commands.HerderOutCmd;
 import frc.robot.commands.HoldArmCmd;
 import frc.robot.commands.LineUpCmd;
 import frc.robot.commands.ResetGyroCmd;
+import frc.robot.commands.ShootCloseCmd;
 import frc.robot.commands.ShootCmd;
 import frc.robot.commands.FlyWheelInCmd;
 import frc.robot.commands.FlyWheelOutCmd;
+
 
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.WinchExtendCmd;
@@ -33,6 +35,7 @@ import frc.robot.subsystems.HerderSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.WinchSubsystem;
 import frc.robot.subsystems.FlyWheelSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
 import java.util.List;
 
@@ -47,6 +50,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -64,15 +68,22 @@ public class RobotContainer {
   private final HerderSubsystem herderSubsystem = new HerderSubsystem();
   private final WinchSubsystem winchSubsystem = new WinchSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+  private final SendableChooser<String> m_chooser;
+
 
   //Driver CONTROLLER ON PORT 0 AND Utilities ON PORT 1
   private final Joystick driverJoystickOne = new Joystick(OIConstants.kDriverControllerOnePort);
   private final Joystick driverJoystickTwo = new Joystick(OIConstants.kDriverControllerTwoPort);
+
+  //chooser options
+  private final String leftAuto = "Left Auto";
  
   
 
   public RobotContainer() {
-    
+      m_chooser = new SendableChooser<>();
+      m_chooser.addOption(leftAuto, leftAuto);
     
       //sets default command to joystick with feeders from controller
       swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -83,6 +94,7 @@ public class RobotContainer {
               () -> !driverJoystickOne.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
       armSubsystem.setDefaultCommand(new HoldArmCmd(armSubsystem));
+      SmartDashboard.putData("Auto Choices", m_chooser);
 
       configureButtonBindings();
   }
@@ -93,7 +105,7 @@ public class RobotContainer {
     new JoystickButton(driverJoystickOne, OIConstants.kRestGyrobutton).whileTrue(new ResetGyroCmd(swerveSubsystem)); 
     //toggle on to pivot to the apriltag
     //make sure the april tag is IN VIEW
-    new JoystickButton(driverJoystickOne, OIConstants.kShootSequenceButton).toggleOnTrue(new LineUpCmd(swerveSubsystem)); 
+    new JoystickButton(driverJoystickOne, OIConstants.kShootSequenceButton).whileTrue(new LineUpCmd(swerveSubsystem, limelightSubsystem)); 
 
     //right and left trigger
     new JoystickButton(driverJoystickOne, OIConstants.kExtendLiftButton).whileTrue(new WinchExtendCmd(winchSubsystem));
@@ -102,12 +114,11 @@ public class RobotContainer {
 
     //////////Controller Two\\\\\\\\\\\\\\\\\
     //Y and A
-    // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new InstantCommand(flyWheelSubsystem::flyOut));
     //this one runs herder and fly wheels at the same time
-    // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new ShootCmd(flyWheelSubsystem,herderSubsystem));
+    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).onTrue(new ShootCmd(flyWheelSubsystem,herderSubsystem));
     new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelBwdButton).whileTrue(new FlyWheelInCmd(flyWheelSubsystem));
     // if you want to just have a basic fly wheel shoot command use this one rather than the ShootCmd One
-    new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).whileTrue(new FlyWheelOutCmd(flyWheelSubsystem));
+    // new JoystickButton(driverJoystickTwo, OIConstants.kFlyWheelFwdButton).whileTrue(new FlyWheelOutCmd(flyWheelSubsystem));
 
     //left and right trigger
     new JoystickButton(driverJoystickTwo, OIConstants.kArmForwardButton).whileTrue(new ArmFwdCmd(armSubsystem));
@@ -119,13 +130,13 @@ public class RobotContainer {
 
     //EACH OF THESE IS A PID SETPOINT    HOLD DOWN THE BUTTON TO GET TO THE RESPECTIVE POSITION
     //plus right
-    new POVButton(driverJoystickTwo, OIConstants.kArmAmpButton).whileTrue(new AngleAmpCmd(armSubsystem));
+    new POVButton(driverJoystickTwo, OIConstants.kArmAmpButton).onTrue(new AngleAmpCmd(armSubsystem));
     //plus up
-    new POVButton(driverJoystickTwo, OIConstants.kArmHerdButton).whileTrue(new AngleHerdCmd(armSubsystem));
+    new POVButton(driverJoystickTwo, OIConstants.kArmHerdButton).onTrue(new AngleHerdCmd(armSubsystem));
     //plus down
-    new POVButton(driverJoystickTwo, OIConstants.kArmCloseSpeakerButton).whileTrue(new AngleCloseSpeakerCmd(armSubsystem));
+    new POVButton(driverJoystickTwo, OIConstants.kArmCloseSpeakerButton).onTrue(new AngleCloseSpeakerCmd(armSubsystem));
     //plus left
-    new POVButton(driverJoystickTwo, OIConstants.kArmFarSpeakerButton).whileTrue(new AngleFarSpeakerCmd(armSubsystem));
+    new POVButton(driverJoystickTwo, OIConstants.kArmFarSpeakerButton).onTrue(new AngleFarSpeakerCmd(armSubsystem));
 
     //switches over to joystick using x button toggle
     // new JoystickButton(driverJoystickOne, 3).toggleOnTrue(new SwerveJoystickCmd(
@@ -146,18 +157,7 @@ public class RobotContainer {
     .setKinematics(DriveConstants.kDriveKinematics);
     //2. Generate trajectory
     //maybe make more Autocommands that can pass in these values/cords
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(//
-        //x is forward/backward movement and y is left/right movement
-        //coordinates are in meters i think???
-        new Pose2d(0, 0, new Rotation2d(0)),
-        List.of(
-                // new Translation2d(1, 0),
-                new Translation2d(0, 2),
-                new Translation2d(2, 2),
-                new Translation2d(2, 0)
-        ),
-        new Pose2d(0, 0, Rotation2d.fromDegrees(180)),
-        trajectoryConfig);
+    
     //3. Define PID controllers for tracking trajectory
     //check out these autoconstants
     PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
@@ -167,7 +167,18 @@ public class RobotContainer {
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
     HolonomicDriveController holoController = new HolonomicDriveController(xController, yController, thetaController);
     //4. Construct command to follow trajectory
-    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(//
+  
+    switch(m_chooser.getSelected()){
+      case "Left Auto":
+       Trajectory trajectory = TrajectoryGenerator.generateTrajectory(//
+        //x is forward/backward movement and y is left/right movement
+        //coordinates are in meters i think???
+        new Pose2d(0, 0, new Rotation2d(-45)),
+        List.of(
+        ),
+        new Pose2d(2, 0, Rotation2d.fromDegrees(0)),
+        trajectoryConfig);
+        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(//
     trajectory, 
     swerveSubsystem::getPose, 
     DriveConstants.kDriveKinematics, 
@@ -177,9 +188,18 @@ public class RobotContainer {
     //5. Add some init qand wrap-up, and return everything
     return new SequentialCommandGroup(
       //resets odometer so that "even if the robot does not start on the initial point of our trajectory, it will move that trajectory to the current location"
-      new InstantCommand(()-> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),//
+      new InstantCommand(()-> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+      new ShootCloseCmd(herderSubsystem,armSubsystem,flyWheelSubsystem),
+    ///
       swerveControllerCommand,//
       new InstantCommand(()-> swerveSubsystem.stopModules())//
     );
+      
+      
+    default:
+    return null;
+      
+   
   }
+}
 }

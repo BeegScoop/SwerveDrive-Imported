@@ -46,11 +46,14 @@ public class ArmSubsystem extends SubsystemBase {
     armAbsoluteEncoder.setPositionConversionFactor(ArmConstants.kArmAbsoluteRot2Rad);
     armAbsoluteEncoder.setVelocityConversionFactor(ArmConstants.kArmAbsoluteRPM2RadPerSec);
 
-    armPidController = new PIDController(ArmConstants.kPArm, 0, 0);
+    armPidController = new PIDController(ArmConstants.kPArm, ArmConstants.kIArm, ArmConstants.kDArm);
     armMotor.setSmartCurrentLimit(30);
-    armEncoder.setPosition(armAbsoluteEncoder.getPosition());
+    resetArm();    
     
-    
+  }
+  public void resetArm(){
+      armEncoder.setPosition(armAbsoluteEncoder.getPosition());
+
   }
   public void turnArmForward(){
    

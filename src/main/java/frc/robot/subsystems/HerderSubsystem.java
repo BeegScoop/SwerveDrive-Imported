@@ -47,6 +47,8 @@ public class HerderSubsystem extends SubsystemBase {
     topHerderEncoder.setVelocityConversionFactor(HerderConstants.kHerderEncoderRPM2MeterPerSec);
     botHerderEncoder.setPositionConversionFactor(HerderConstants.kHerderEncoderRot2Meter);
     botHerderEncoder.setVelocityConversionFactor(HerderConstants.kHerderEncoderRPM2MeterPerSec);
+    topHerderMotor.setSmartCurrentLimit(40);
+    botHerderMotor.setSmartCurrentLimit(40);
   }
 
   public void herderIn(){

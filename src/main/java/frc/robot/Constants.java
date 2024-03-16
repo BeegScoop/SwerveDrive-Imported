@@ -64,7 +64,7 @@ public final class Constants {
     public static final double kAmpAngle = 1.801266;
     public static final double kHerdAngle = 0;
     public static final double kSpeakerCloseAngle = 0.476566;
-    public static final double kSpeakerFarAngle = 0.638889;
+    public static final double kSpeakerFarAngle = 0.657011866569519;
 
     //
     //7ft from bumper to goal
@@ -73,7 +73,9 @@ public final class Constants {
     public static final double kForwardSpeed = 0.1;
     public static final double kBackwardSpeed = -0.1;
     //test
-    public static final double kPArm = 0.5;
+    public static final double kPArm = 0.7;
+    public static final double kIArm = 0.05;
+    public static final double kDArm = 0.01;
   }
 
   public static class FlyConstants{
@@ -86,7 +88,8 @@ public final class Constants {
     public static final boolean kRightFlyMotorReversed = false;
     public static final boolean kLeftFlyMotorReversed = true;
 
-    public static final double kFlyMotorSpeed = 0.85;
+    public static final double kFlyRightMotorSpeed = 0.85;
+    public static final double kFlyLeftMotorSpeed = 0.85;
     
     
   }
@@ -118,8 +121,8 @@ public final class Constants {
     //check buttheads
     public static final int kWinchMotorPort = 40;
     public static final boolean kWinchMotorReversed = false;
-    public static final double kWinchForwardSpeed =0.35;
-    public static final double kWinchBackwardSpeed = -0.35;
+    public static final double kWinchForwardSpeed =0.5;
+    public static final double kWinchBackwardSpeed = 0.5;
 
     public static final double kPWinch = 0.1;
   }
@@ -227,9 +230,9 @@ public final class Constants {
     //A
     public static final int kFlyWheelBwdButton = 1;
     //right trigger
-    public static final int kArmForwardButton = 6;
+    public static final int kArmForwardButton = 5;
     //left trigger
-    public static final int kArmBackwardButton = 5;
+    public static final int kArmBackwardButton = 6;
     //B
     public static final int kHerderInButton = 3;
     //X
@@ -253,16 +256,29 @@ public final class Constants {
     public static final double kDeadband = 0.1;
 }
   public static final class LimeConstants{
-    public static final double kSpeakerTagHieght = 0.0;
-    public static final double kCameraHieght = 0.0;
-    public static final double kPTwistController = 1.5;
+    //in inches
+    public static final double kSpeakerTagHieght = 53.88+3.25;
+    public static final double kCameraHieght = 18.5;
+    public static final double kCameraAngle = 10.0;
+    public static final double kPTwistController = 2.4;
     public static final double kDTwistController = 0.009;
+    public static final double kPDriveController = 0.1;
+    public static final double kDDriveController = 0;
     public static final double kMaxAngularSpeedRadiansPerSecond = //
           DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 5.0;
     public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4.0;
+    public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 2.0;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3.0;
+
     public static final TrapezoidProfile.Constraints kTwistControllerConstraints = 
                 new TrapezoidProfile.Constraints(
                         kMaxAngularSpeedRadiansPerSecond,
                         kMaxAngularAccelerationRadiansPerSecondSquared);
+
+    public static final TrapezoidProfile.Constraints kDriveControllerConstraints = 
+                new TrapezoidProfile.Constraints(
+                        kMaxSpeedMetersPerSecond,
+                        kMaxAccelerationMetersPerSecondSquared);
   }
+  
 }

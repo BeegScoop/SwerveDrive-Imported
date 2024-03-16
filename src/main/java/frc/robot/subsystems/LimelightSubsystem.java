@@ -10,6 +10,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.LimelightHelpers;
+import frc.robot.Constants.LimeConstants;
+
 ///////////////////////////////////////////////////I DONT THINK WE NEED THIS SUBSYSTEM DUE TO LIMELIGHT HELPER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ////////////////////////////////////////////////////////////////////DO NOT USE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 public class LimelightSubsystem extends SubsystemBase {
@@ -29,7 +32,7 @@ public class LimelightSubsystem extends SubsystemBase {
     ta = table.getEntry("ta");
 
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("canMode").setNumber(0);
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(2);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(0);
 
   }
 
@@ -45,6 +48,7 @@ public class LimelightSubsystem extends SubsystemBase {
   SmartDashboard.putNumber("limelightX", x);
   SmartDashboard.putNumber("limelightY", y);
   SmartDashboard.putNumber("limelightArea", area);
+  SmartDashboard.putNumber("Distance from Tag", getHorizontalDistance());
 
   }
   public double getLimeX(){
@@ -55,6 +59,10 @@ public class LimelightSubsystem extends SubsystemBase {
   }
   public double getLimeArea(){
     return area;
+  }
+  public double getHorizontalDistance(){
+    return ((LimeConstants.kSpeakerTagHieght-LimeConstants.kCameraHieght)/ //
+    Math.tan((LimeConstants.kCameraAngle+LimelightHelpers.getTY("limelight"))*(Math.PI/180)))/12;
   }
 
   public void align(){

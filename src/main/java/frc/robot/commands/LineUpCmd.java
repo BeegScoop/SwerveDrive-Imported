@@ -6,9 +6,11 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlyWheelSubsystem;
 import frc.robot.subsystems.HerderSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.LimelightHelpers;
 import frc.robot.Constants.AutoConstants;
@@ -21,16 +23,18 @@ import frc.robot.Constants.LimeConstants;
 public class LineUpCmd extends Command {
   /** Creates a new LineUpAndShootCmd. */
   private final SwerveSubsystem swerveSubsystem;
-  
-
+  private ChassisSpeeds chassisSpeeds;
+  private final LimelightSubsystem limelightSubsystem;
   private final ProfiledPIDController twistController;
-  public LineUpCmd(SwerveSubsystem swerveSubsystem) {
+  private final ProfiledPIDController driveController;
+  public LineUpCmd(SwerveSubsystem swerveSubsystem, LimelightSubsystem limelightSubsystem) {
     this.swerveSubsystem = swerveSubsystem;
-
+    this.limelightSubsystem = limelightSubsystem;
     //crate a PID controller for our twisting motion (NEEDS TO BE TUNED: JUST EDIT kPTwist and kDTwistt in constants)
     twistController = new ProfiledPIDController(
         LimeConstants.kPTwistController,0, LimeConstants.kDTwistController, LimeConstants.kTwistControllerConstraints);
-    twistController.setTolerance(Math.PI/180);
+    driveController = new ProfiledPIDController(LimeConstants.kPDriveController, 0, LimeConstants.kDDriveController, LimeConstants.kDriveControllerConstraints);
+    
     addRequirements(swerveSubsystem);
   }
 
@@ -42,14 +46,17 @@ public class LineUpCmd extends Command {
   @Override
   public void execute() {
     //aims to create module states based on the reading of the limelight vs desired reading of the limelight
-    double xSpeed = 0;
+    double xSpeed = driveController.calculate(limelightSubsystem.getHorizontalDistance(),7);
     double ySpeed = 0;
     double turningSpeed = -1.0*twistController.calculate(
       //converts TX which is returned in degrees to radians (idk if this is necessary but it keeps the same units as constraints)
     (LimelightHelpers.getTX("limelight")/180)*Math.PI,
     0
     );
-    ChassisSpeeds chassisSpeeds;
+    SmartDashboard.putNumber("turning speed", turningSpeed);
+    
+
+    
     // Takes the twist speeds along with the 0 x and y speeds and converts them to something that can be input into each swerve modules
     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
           xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
@@ -71,11 +78,16 @@ public class LineUpCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(LimelightHelpers.getTX("limelight")>1||LimelightHelpers.getTX("limelight")<-1){
-      swerveSubsystem.stopModules();
-      return true;
-    }else{
-      return false;
-    }
+    // if(
+    //   (LimelightHelpers.getTX("limelight")<0.5&&LimelightHelpers.getTX("limelight")>-0.5)
+    //   &&
+    //   (limelightSubsystem.getHorizontalDistance()>6.75&&limelightSubsystem.getHorizontalDistance()<7.25)
+    // ){
+    //   swerveSubsystem.stopModules();
+    //   return true;
+    // }else{
+    //   return false;
+    // }
+    return false;
   }
 }
