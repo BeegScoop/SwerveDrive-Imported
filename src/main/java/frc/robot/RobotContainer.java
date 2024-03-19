@@ -79,12 +79,17 @@ public class RobotContainer {
 
   //chooser options
   private final String leftAuto = "Left Auto";
+  private final String centerAuto = "Center Auto";
+  private final String rightAuto = "Right Auto";
  
   
 
   public RobotContainer() {
       m_chooser = new SendableChooser<>();
       m_chooser.addOption(leftAuto, leftAuto);
+      m_chooser.addOption(centerAuto, centerAuto);
+      m_chooser.addOption(rightAuto, rightAuto);
+
     
       //sets default command to joystick with feeders from controller
       swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
@@ -172,8 +177,9 @@ public class RobotContainer {
     //4. Construct command to follow trajectory
   
     switch(m_chooser.getSelected()){
+      ///////////////////////////////////////SIMPLE LEFT AUTO\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
       case "Left Auto":
-       Trajectory trajectory = TrajectoryGenerator.generateTrajectory(//
+       Trajectory leftTrajectory = TrajectoryGenerator.generateTrajectory(//
         //x is forward/backward movement and y is left/right movement
         //coordinates are in meters i think???
         new Pose2d(0, 0, new Rotation2d(-45)),
@@ -181,8 +187,8 @@ public class RobotContainer {
         ),
         new Pose2d(2, 0, Rotation2d.fromDegrees(0)),
         trajectoryConfig);
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(//
-    trajectory, 
+        SwerveControllerCommand leftSwerveControllerCommand = new SwerveControllerCommand(//
+    leftTrajectory, 
     swerveSubsystem::getPose, 
     DriveConstants.kDriveKinematics, 
     holoController, 
@@ -192,7 +198,7 @@ public class RobotContainer {
     return new SequentialCommandGroup(
       //resets odometer so that "even if the robot does not start on the initial point of our trajectory, it will move that trajectory to the current location"
       
-      new InstantCommand(()-> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+      new InstantCommand(()-> swerveSubsystem.resetOdometry(leftTrajectory.getInitialPose())),
       //could use this instead
       // new ParallelDeadlineGroup(new ShootCmd(flyWheelSubsystem, herderSubsystem), new AngleCloseSpeakerCmd(armSubsystem)),
 
@@ -200,11 +206,75 @@ public class RobotContainer {
       //deadline finishes the group as soon as the first command finishes (in this case ShootCmd)
       new ParallelDeadlineGroup(new ShootCmd(flyWheelSubsystem, herderSubsystem), new HoldArmCmd(armSubsystem)),
     ///
-      swerveControllerCommand,//
+      leftSwerveControllerCommand,//
       new InstantCommand(()-> swerveSubsystem.stopModules())//
     );
+    ////////////////////////////////////////////SIMPLE CENTER AUTO\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    case "Right Auto":
+      Trajectory rightTrajectory = TrajectoryGenerator.generateTrajectory(//
+        //x is forward/backward movement and y is left/right movement
+        //coordinates are in meters i think???
+        new Pose2d(0, 0, new Rotation2d(45)),
+        List.of(
+        ),
+        new Pose2d(2, 0, Rotation2d.fromDegrees(0)),
+        trajectoryConfig);
+        SwerveControllerCommand rightSwerveControllerCommand = new SwerveControllerCommand(//
+    rightTrajectory, 
+    swerveSubsystem::getPose, 
+    DriveConstants.kDriveKinematics, 
+    holoController, 
+    swerveSubsystem::setModuleStates, 
+    swerveSubsystem);
+    //5. Add some init qand wrap-up, and return everything
+    return new SequentialCommandGroup(
+      //resets odometer so that "even if the robot does not start on the initial point of our trajectory, it will move that trajectory to the current location"
       
+      new InstantCommand(()-> swerveSubsystem.resetOdometry(rightTrajectory.getInitialPose())),
+      //could use this instead
+      // new ParallelDeadlineGroup(new ShootCmd(flyWheelSubsystem, herderSubsystem), new AngleCloseSpeakerCmd(armSubsystem)),
+
+      new AngleCloseSpeakerCmd(armSubsystem),
+      //deadline finishes the group as soon as the first command finishes (in this case ShootCmd)
+      new ParallelDeadlineGroup(new ShootCmd(flyWheelSubsystem, herderSubsystem), new HoldArmCmd(armSubsystem)),
+    ///
+      rightSwerveControllerCommand,//
+      new InstantCommand(()-> swerveSubsystem.stopModules())//
+    );
+    
+
+    /////////////////////////////////////////////SIMPLE RIGHT AUTO\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    case "Center Auto":
+      Trajectory centerTrajectory = TrajectoryGenerator.generateTrajectory(//
+        //x is forward/backward movement and y is left/right movement
+        //coordinates are in meters i think???
+        new Pose2d(0, 0, new Rotation2d(0)),
+        List.of(
+        ),
+        new Pose2d(2, 0, Rotation2d.fromDegrees(0)),
+        trajectoryConfig);
+        SwerveControllerCommand centerSwerveControllerCommand = new SwerveControllerCommand(//
+    centerTrajectory, 
+    swerveSubsystem::getPose, 
+    DriveConstants.kDriveKinematics, 
+    holoController, 
+    swerveSubsystem::setModuleStates, 
+    swerveSubsystem);
+    //5. Add some init qand wrap-up, and return everything
+    return new SequentialCommandGroup(
+      //resets odometer so that "even if the robot does not start on the initial point of our trajectory, it will move that trajectory to the current location"
       
+      new InstantCommand(()-> swerveSubsystem.resetOdometry(centerTrajectory.getInitialPose())),
+      //could use this instead
+      // new ParallelDeadlineGroup(new ShootCmd(flyWheelSubsystem, herderSubsystem), new AngleCloseSpeakerCmd(armSubsystem)),
+
+      new AngleCloseSpeakerCmd(armSubsystem),
+      //deadline finishes the group as soon as the first command finishes (in this case ShootCmd)
+      new ParallelDeadlineGroup(new ShootCmd(flyWheelSubsystem, herderSubsystem), new HoldArmCmd(armSubsystem)),
+    ///
+      centerSwerveControllerCommand,//
+      new InstantCommand(()-> swerveSubsystem.stopModules())//
+    );
     default:
     return null;
       
