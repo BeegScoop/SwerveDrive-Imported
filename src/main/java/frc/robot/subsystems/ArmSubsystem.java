@@ -22,7 +22,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
-
+import frc.robot.commands.HoldArmCmd;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 
@@ -35,6 +35,7 @@ public class ArmSubsystem extends SubsystemBase {
   private RelativeEncoder armEncoder;
   private AbsoluteEncoder armAbsoluteEncoder;
   private PIDController armPidController;
+  
   public ArmSubsystem() {
     
     armMotor = new CANSparkMax(ArmConstants.kArmMotorPort,MotorType.kBrushless);
@@ -84,6 +85,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void stopArm(){
     armMotor.set(0);
   }
+  
   //input a radius relative to the starting position of the arm
   //BE CAREFUL: PID COULD BE SET IN WRONG DIRECTION SO START ARM IN THE MIDDLE AND BE READY TO STOP THAT JOHN
   public void setArmPosition(double posRad){

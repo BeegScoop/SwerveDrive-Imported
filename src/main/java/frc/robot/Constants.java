@@ -64,7 +64,7 @@ public final class Constants {
     public static final double kAmpAngle = 1.801266;
     public static final double kHerdAngle = 0;
     public static final double kSpeakerCloseAngle = 0.476566;
-    public static final double kSpeakerFarAngle = 0.657011866569519;
+    public static final double kSpeakerFarAngle = 0.652725;
 
     //
     //7ft from bumper to goal

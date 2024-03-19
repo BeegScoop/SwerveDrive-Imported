@@ -34,6 +34,10 @@ public class AngleCloseSpeakerCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(armSubsystem.getArmPosition()<ArmConstants.kSpeakerCloseAngle+0.025&&armSubsystem.getArmPosition()>ArmConstants.kSpeakerCloseAngle-0.025){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

@@ -21,7 +21,6 @@ import frc.robot.commands.HerderOutCmd;
 import frc.robot.commands.HoldArmCmd;
 import frc.robot.commands.LineUpCmd;
 import frc.robot.commands.ResetGyroCmd;
-import frc.robot.commands.ShootCloseCmd;
 import frc.robot.commands.ShootCmd;
 import frc.robot.commands.FlyWheelInCmd;
 import frc.robot.commands.FlyWheelOutCmd;
@@ -53,6 +52,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -190,8 +191,14 @@ public class RobotContainer {
     //5. Add some init qand wrap-up, and return everything
     return new SequentialCommandGroup(
       //resets odometer so that "even if the robot does not start on the initial point of our trajectory, it will move that trajectory to the current location"
+      
       new InstantCommand(()-> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-      new ShootCloseCmd(herderSubsystem,armSubsystem,flyWheelSubsystem),
+      //could use this instead
+      // new ParallelDeadlineGroup(new ShootCmd(flyWheelSubsystem, herderSubsystem), new AngleCloseSpeakerCmd(armSubsystem)),
+
+      new AngleCloseSpeakerCmd(armSubsystem),
+      //deadline finishes the group as soon as the first command finishes (in this case ShootCmd)
+      new ParallelDeadlineGroup(new ShootCmd(flyWheelSubsystem, herderSubsystem), new HoldArmCmd(armSubsystem)),
     ///
       swerveControllerCommand,//
       new InstantCommand(()-> swerveSubsystem.stopModules())//

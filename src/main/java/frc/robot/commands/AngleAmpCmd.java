@@ -34,6 +34,11 @@ public class AngleAmpCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(armSubsystem.getArmPosition()<ArmConstants.kAmpAngle+0.05&&armSubsystem.getArmPosition()>ArmConstants.kAmpAngle-0.1){
+      return true;
+    }else{
+      return false;
+    }
+    
   }
 }
