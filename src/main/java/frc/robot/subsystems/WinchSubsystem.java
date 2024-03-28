@@ -47,21 +47,32 @@ public class WinchSubsystem extends SubsystemBase {
     winchEncoder.setVelocityConversionFactor(WinchConstants.kWinchEncoderRPM2MeterPerSec);
     winchPidController = new PIDController(WinchConstants.kPWinch, 0, 0);
     winchMotor.setSmartCurrentLimit(30);
+    winchEncoder.setPosition(0);
   }
   public void extendLift(){
+    if(winchEncoder.getPosition()<WinchConstants.kMeterLimitTop){
+
+    
     if(WinchConstants.kWinchMotorReversed){
       winchMotor.set(WinchConstants.kWinchForwardSpeed*(-1.0));
     }else{
       winchMotor.set(WinchConstants.kWinchForwardSpeed);
     }
+  }else{
+    liftStop();
+  }
     
   }
   public void retractLift(){
+    if(winchEncoder.getPosition()>WinchConstants.kMeterLimitBot){
     if(ArmConstants.kArmMotorReversed){
       winchMotor.set(WinchConstants.kWinchBackwardSpeed*(-1.0));
     }else{
       winchMotor.set(WinchConstants.kWinchBackwardSpeed);
     }
+  }else{
+    liftStop();
+  }
   }
   //I dont think this is going to be of use
   public void setLiftPosition(double posMeters){
@@ -74,7 +85,7 @@ public class WinchSubsystem extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("Relative Winch Encoder", winchEncoder.getPosition() );
+    SmartDashboard.putNumber("Relative Winch Encoder", winchEncoder.getPosition() );
     // This method will be called once per scheduler run
   }
 }

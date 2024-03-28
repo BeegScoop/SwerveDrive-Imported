@@ -35,6 +35,10 @@ public class AngleFarSpeakerCmd extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(armSubsystem.getArmPosition()<ArmConstants.kSpeakerFarAngle+0.015&&armSubsystem.getArmPosition()>ArmConstants.kSpeakerFarAngle-0.015){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

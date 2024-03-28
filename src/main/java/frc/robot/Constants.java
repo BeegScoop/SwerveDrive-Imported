@@ -63,8 +63,10 @@ public final class Constants {
     //Angles for the four presets 
     public static final double kAmpAngle = 1.801266;
     public static final double kHerdAngle = 0;
-    public static final double kSpeakerCloseAngle = 0.476566;
-    public static final double kSpeakerFarAngle = 0.652725;
+    // public static final double kSpeakerCloseAngle = 0.476566;
+    public static final double kSpeakerCloseAngle = 0.622599105834961;
+
+    public static final double kSpeakerFarAngle = 0.682725;
 
     //
     //7ft from bumper to goal
@@ -74,7 +76,7 @@ public final class Constants {
     public static final double kBackwardSpeed = -0.1;
     //test
     public static final double kPArm = 0.7;
-    public static final double kIArm = 0.05;
+    public static final double kIArm = 0.04;
     public static final double kDArm = 0.01;
   }
 
@@ -88,8 +90,8 @@ public final class Constants {
     public static final boolean kRightFlyMotorReversed = false;
     public static final boolean kLeftFlyMotorReversed = true;
 
-    public static final double kFlyRightMotorSpeed = 0.85;
-    public static final double kFlyLeftMotorSpeed = 0.85;
+    public static final double kFlyRightMotorSpeed = 1;
+    public static final double kFlyLeftMotorSpeed = 1;
     
     
   }
@@ -116,13 +118,15 @@ public final class Constants {
     public static final double kWinchEncoderRot2Meter = kWinchMotorGearRatio*Math.PI * kWinchWheelDiameterMeters;
     public static final double kWinchEncoderRPM2MeterPerSec = kWinchEncoderRot2Meter/60;
 
-    public static final double kMeterLimitBot = -100;
-    public static final double kMeterLimitTop = 100;
+    public static final double kMeterLimitBot = 0;
+    public static final double kMeterLimitTop = 16;
+    // public static final double kMeterLimitBot = -100;
+    // public static final double kMeterLimitTop = 100;
     //check buttheads
     public static final int kWinchMotorPort = 40;
     public static final boolean kWinchMotorReversed = false;
-    public static final double kWinchForwardSpeed =0.5;
-    public static final double kWinchBackwardSpeed = 0.5;
+    public static final double kWinchForwardSpeed =0.7;
+    public static final double kWinchBackwardSpeed = 0.7;
 
     public static final double kPWinch = 0.1;
   }

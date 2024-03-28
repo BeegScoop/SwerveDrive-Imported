@@ -44,7 +44,7 @@ public class ShootCmd extends Command {
     //edit delay for the time it takes for motor to spin up
     SmartDashboard.putNumber("timer", timer.get());
 
-    if(timer.get()<0.17){
+    if(timer.get()<0.10){
       herderSubsystem.herderOut();
       flyWheelSubsystem.flyIn();
     }else if(timer.get()<1.5){
